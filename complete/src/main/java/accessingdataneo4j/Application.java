@@ -8,7 +8,6 @@ public class Application {
 	
 	public static void main(String[] args) {
 		AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext(Config.class);
-		ctx.registerShutdownHook();
 
 		Person greg = new Person("Greg");
 		Person roy = new Person("Roy");

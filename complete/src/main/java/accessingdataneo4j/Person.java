@@ -29,7 +29,7 @@ public class Person {
 	}
 	
 	public String toString() {
-		String results = name + "(" + id + ")'s teammates include\n";
+		String results = name + "'s teammates include\n";
 		if (teammates != null) {
 			for (Person person : teammates) {
 				results += "\t- " + person.name + "\n";
