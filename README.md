@@ -245,12 +245,12 @@ public class Application {
 			personRepository.save(roy);
 			personRepository.save(craig);
 			
-			greg = personRepository.findOne(greg.id);
+			greg = personRepository.findByName(greg.name);
 			greg.worksWith(roy);
 			greg.worksWith(craig);
 			personRepository.save(greg);
 
-			roy = personRepository.findOne(roy.id);
+			roy = personRepository.findByName(roy.name);
 			roy.worksWith(craig);
 			// We already know that roy works with greg
 			personRepository.save(roy);
