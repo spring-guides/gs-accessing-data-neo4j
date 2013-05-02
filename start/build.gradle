@@ -1,0 +1,41 @@
+apply plugin: 'java'
+apply plugin: 'eclipse'
+
+apply plugin: 'application'
+mainClassName = "accessingdataneo4j.Application"
+
+repositories { 
+	mavenCentral()
+	maven { url "http://m2.neo4j.org/" } 
+}
+
+ext.springVersion = "3.2.2.RELEASE"
+ext.springDataGraphVersion = "2.2.0.RELEASE"
+ext.aspectjVersion = "1.6.12"
+
+dependencies {
+	compile "org.springframework.data:spring-data-neo4j:$springDataGraphVersion"
+	compile "org.springframework.data:spring-data-neo4j-aspects:$springDataGraphVersion"
+	compile "javax.validation:validation-api:1.0.0.GA"
+	compile 'org.slf4j:slf4j-log4j12:1.7.5'
+}
+
+// Swap out default Spring Framework version with the latest release
+configurations.all {
+	resolutionStrategy.eachDependency { DependencyResolveDetails details ->
+		if (details.requested.name.startsWith("spring") && !details.requested.name.startsWith("spring-data")) {
+			details.useTarget group: details.requested.group, \
+				name: details.requested.name, version: springVersion
+		}
+	}
+}
+
+gradle.taskGraph.beforeTask { Task task ->
+	if (task.name == "run") {
+		delete "accessingdataneo4j.db"
+	}
+}
+
+task wrapper(type: Wrapper) {
+	gradleVersion = '1.5'
+}
