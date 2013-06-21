@@ -1,64 +1,145 @@
 Getting Started: Accessing Data with Neo4j
 ==========================================
 
-This Getting Started guide will walk you through the process of building an application using Neo4j's graph-based data store.
+What you'll build
+-----------------
 
-To help you get started, we've provide an initial project structure as well as the completed project for you in GitHub:
+This guide will walk you through the process of building an application using Neo4j's graph-based data store.
 
-```sh
-$ git clone https://github.com/springframework-meta/gs-accessing-data-neo4j.git
+What you'll need
+----------------
+
+- About 15 minutes
+ - A favorite text editor or IDE
+ - [JDK 6][jdk] or later
+ - [Maven 3.0][mvn] or later
+
+[jdk]: http://www.oracle.com/technetwork/java/javase/downloads/index.html
+[mvn]: http://maven.apache.org/download.cgi
+
+How to complete this guide
+--------------------------
+
+Like all Spring's [Getting Started guides](/getting-started), you can start from scratch and complete each step, or you can bypass basic setup steps that are already familiar to you. Either way, you end up with working code.
+
+To **start from scratch**, move on to [Set up the project](#scratch).
+
+To **skip the basics**, do the following:
+
+ - [Download][zip] and unzip the source repository for this guide, or clone it using [git](/understanding/git):
+`git clone https://github.com/springframework-meta/{@project-name}.git`
+ - cd into `{@project-name}/initial`
+ - Jump ahead to [Create a resource representation class](#initial).
+
+**When you're finished**, you can check your results against the code in `{@project-name}/complete`.
+
+
+<a name="scratch"></a>
+Set up the project
+------------------
+
+First you set up a basic build script. You can use any build system you like when building apps with Spring, but the code you need to work with [Maven](https://maven.apache.org) and [Gradle](http://gradle.org) is included here. If you're not familiar with either, refer to [Getting Started with Maven](../gs-maven/README.md) or [Getting Started with Gradle](../gs-gradle/README.md).
+
+### Create the directory structure
+
+In a project directory of your choosing, create the following subdirectory structure; for example, with `mkdir -p src/main/java/hello` on *nix systems:
+
+    └── src
+        └── main
+            └── java
+                └── hello
+
+### Create a Maven POM
+
+`pom.xml`
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>org.springframework</groupId>
+    <artifactId>gs-acessing-data-neo4j-initial</artifactId>
+    <version>0.1.0</version>
+
+    <dependencies>
+        <dependency>
+        	<groupId>org.springframework</groupId>
+        	<artifactId>spring-context</artifactId>
+        	<version>3.2.3.RELEASE</version>
+        </dependency>
+        <dependency>
+        	<groupId>org.springframework</groupId>
+        	<artifactId>spring-tx</artifactId>
+        	<version>3.2.3.RELEASE</version>
+        </dependency>
+        <dependency>
+        	<groupId>org.springframework.data</groupId>
+        	<artifactId>spring-data-neo4j</artifactId>
+        	<version>2.2.0.RELEASE</version>
+        	<exclusions>
+        		<exclusion>
+        			<groupId>org.springframework</groupId>
+        			<artifactId>spring-context</artifactId>
+        		</exclusion>
+        		<exclusion>
+        			<groupId>org.springframework</groupId>
+        			<artifactId>spring-tx</artifactId>
+        		</exclusion>
+        		<exclusion>
+        			<groupId>org.springframework</groupId>
+        			<artifactId>spring-aspects</artifactId>
+        		</exclusion>
+        	</exclusions>
+        </dependency>
+        <dependency>
+        	 <groupId>javax.validation</groupId>
+        	 <artifactId>validation-api</artifactId>
+        	 <version>1.0.0.GA</version>
+        </dependency>
+        <dependency>
+        	 <groupId>org.slf4j</groupId>
+        	 <artifactId>slf4j-log4j12</artifactId>
+        	 <version>1.7.5</version>
+        </dependency>
+    </dependencies>
+    
+    <!-- TODO: remove once bootstrap goes GA -->
+    <repositories>
+        <repository>
+            <id>spring-snapshots</id>
+            <name>Spring Snapshots</name>
+            <url>http://repo.springsource.org/snapshot</url>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+        <repository>
+            <id>neo4j</id>
+            <name>Neo4j</name>
+            <url>http://m2.neo4j.org/</url>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
+    <pluginRepositories>
+        <pluginRepository>
+            <id>spring-snapshots</id>
+            <name>Spring Snapshots</name>
+            <url>http://repo.springsource.org/snapshot</url>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </pluginRepository>
+    </pluginRepositories>
+</project>
 ```
 
-In the `initial` folder, you'll find a bare project, ready for you to copy-n-paste code snippets from this document. In the `complete` folder, you'll find the complete project code.
+This guide also uses log4j with certain log levels turned up so you can see what Neo4j and Spring Data are doing.
 
-Before we start storing and querying objects with Neo4j, there is some initial project setup that's required. Or, you can skip straight to the [fun part]().
-
-Selecting Dependencies
-----------------------
-The sample in this Getting Started Guide will leverage Spring Data Neo4j and JSR 303's validation. Therefore, the following dependencies are needed in the project's build configuration:
-
-- org.springframework.data:spring-data-neo4j:2.2.0.RELEASE
-- javax.validation:validation-api:1.0.0.GA
-- org.slf4j:slf4j-log4j12:1.7.5
-
-Refer to the [Gradle Getting Started Guide]() of the [Maven Getting Started Guide]() for details on how to include these dependencies in your build.
-
-Configuring a runnable application
-----------------------------------
-First of all, we need to create a basic runnable application.
-
-```java
-package accessingdataneo4j;
-
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-
-public class Application {
-	
-	public static void main(String[] args) {
-		AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext(Config.class);
-	}
-	
-}
-```
-
-This application will load an application context from the `Config` class. Let's define that next:
-
-```java
-package accessingdataneo4j;
-
-import org.springframework.context.annotation.Configuration;
-
-@Configuration
-public class Config {
-
-}
-```
-
-Our configuration can't get much simpler. We essentially don't have any components defined yet. But we'll be adding some soon.
-
-To finish setting things up, let's configure some logging options in **log4j.properties**.
-
-```txt
+`src/main/resources/log4j.properties`
+```properties
 # Set root logger level to DEBUG and its only appender to A1.
 log4j.rootLogger=WARN, A1
 
@@ -73,27 +154,15 @@ log4j.category.org.springframework=INFO
 log4j.category.org.springframework.data.neo4j=DEBUG
 ```
 
-This will print detailed messages about Spring Data Neo4j to provide insight into what's happening. Now let's run our barebone application.
 
-```sh
-$ ./gradlew run
-```
-
-We should see something like this:
-
-```sh
-0    [main] INFO  org.springframework.context.annotation.AnnotationConfigApplicationContext  - Refreshing org.springframework.context.annotation.AnnotationConfigApplicationContext@622d8a59: startup date [Thu May 02 15:42:19 CDT 2013]; root of context hierarchy
-145  [main] INFO  org.springframework.beans.factory.support.DefaultListableBeanFactory  - Pre-instantiating singletons in org.springframework.beans.factory.support.DefaultListableBeanFactory@25b13009: defining beans [org.springframework.context.annotation.internalConfigurationAnnotationProcessor,org.springframework.context.annotation.internalAutowiredAnnotationProcessor,org.springframework.context.annotation.internalRequiredAnnotationProcessor,org.springframework.context.annotation.internalCommonAnnotationProcessor,config,org.springframework.context.annotation.ConfigurationClassPostProcessor.importAwareProcessor]; root of factory hierarchy
-```
-
-With all this setup, let's dive into creating some basic relationships.
-
+<a name="initial"></a>
 Defining a simple entity
 ------------------------
-Neo4j is designed to capture entities and their relationships, with both aspects being of equal importance. Let's imagine we are modeling a system where we store a record for each person. But we also want to track a person's teammates. With Neo4j, we can capture all that with some simple annotations.
+Neo4j is designed to capture entities and their relationships, with both aspects being of equal importance. Imagine you are modeling a system where you store a record for each person. But you also want to track a person's teammates. With Neo4j, you can capture all that with some simple annotations.
 
+`src/main/java/hello/Person.java`
 ```java
-package accessingdataneo4j;
+package hello;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -136,26 +205,27 @@ public class Person {
 }
 ```
 
-Here we have a `Person` class that has only one attribute, their `name`. We have two constructors, an empty one as well as one for the `name`. To use Neo4j later on, we need the empty constructor. The name-based one is for convenience.
+Here you have a `Person` class that has only one attribute, the `name`. You have two constructors, an empty one as well as one for the `name`. To use Neo4j later on, you need the empty constructor. The name-based one is for convenience.
 
 > In this guide, the typical getters and setters have been left out for brevity.
 
 You'll notice this class is annotated `@NodeEntity`. When Neo4j stores it, it will result in the creation of a new node. This class also has an `id` marked as `@GraphId`. This is for internal usage to help Neo4j track the data.
 
-The next important piece is our set of `teammates`. It is a simple `Set<Person>`, but marked up as `@RelatedTo`. This means that every member of this set is expected to also exist as a separate `Person` node. An important part to notice is how the direction is set to `BOTH`. This means that when we generate a `TEAMMATE` relationship in one direction, it exists in the other direction as well.
+The next important piece is the set of `teammates`. It is a simple `Set<Person>`, but marked up as `@RelatedTo`. This means that every member of this set is expected to also exist as a separate `Person` node. An important part to notice is how the direction is set to `BOTH`. This means that when you generate a `TEAMMATE` relationship in one direction, it exists in the other direction as well.
 
-As a convenience method, we have the `worksWith()` method. This way, we can easily link people together.
+As a convenience method, you have the `worksWith()` method. This way, you can easily link people together.
 
-Finally, we have a convenient `toString()` method to print out the person's name and the people he or she works with.
+Finally, you have a convenient `toString()` method to print out the person's name and the people he or she works with.
 
 Creating some simple queries
 ----------------------------
-Spring Data Neo4j is focused on storing data in Neo4j. But it inherits much functionality from the Spring Data Commons project. This includes it's powerful ability to derive queries. Essentially, we don't have to learn the query language of Neo4j, but can simply write a handful of methods and the queries are written for us.
+Spring Data Neo4j is focused on storing data in Neo4j. But it inherits much functionality from the Spring Data Commons project. This includes it's powerful ability to derive queries. Essentially, you don't have to learn the query language of Neo4j, but can simply write a handful of methods and the queries are written for you.
 
-To show how, let's create an interface that is focused on querying `Person` nodes.
+To see how this works, create an interface that is focused on querying `Person` nodes.
 
+`src/main/java/hello/PersonRepository.java`
 ```java
-package accessingdataneo4j;
+package hello;
 
 import org.springframework.data.neo4j.repository.GraphRepository;
 
@@ -167,31 +237,39 @@ public interface PersonRepository extends GraphRepository<Person> {
 
 }
 ```
-
+    
 `PersonRepository` extends the `GraphRepository` class and plugs in the type it operates on: `Person`. Out-of-the-box, this interface comes with a lot of operations, including standard CRUD (change-replace-update-delete) operations.
 
-But we can define other queries as needed by simply declaring their method signature. In this case, we added `findByName`, which essentially will seek nodes of type `Person` and find the one that matches on `name`. We also have `findByTeammatesName`, which looks for a `Person` node, drills into each `teammate`, and matches based on the teammate's `name`.
+But you can define other queries as needed by simply declaring their method signature. In this case, you added `findByName`, which essentially will seek nodes of type `Person` and find the one that matches on `name`. You also have `findByTeammatesName`, which looks for a `Person` node, drills into each entry of the `teammates` field, and matches based on the teammate's `name`.
 
 Let's wire this up and see what it looks like!
 
 Wiring the application components
 ---------------------------------
-We need to update our `Config` class with some new components.
+You need to create an Application class with all the components.
 
+`src/main/java/hello/Application.java`
 ```java
-package accessingdataneo4j;
+package hello;
 
+import java.io.File;
+import java.io.IOException;
+
+import org.neo4j.graphdb.Transaction;
 import org.neo4j.kernel.EmbeddedGraphDatabase;
+import org.neo4j.kernel.impl.util.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.neo4j.config.EnableNeo4jRepositories;
 import org.springframework.data.neo4j.config.Neo4jConfiguration;
+import org.springframework.data.neo4j.core.GraphDatabase;
 
 @Configuration
 @EnableNeo4jRepositories
-public class Config extends Neo4jConfiguration {
-
+public class Application extends Neo4jConfiguration {
+	
 	@Bean
 	EmbeddedGraphDatabase graphDatabaseService() {
 		return new EmbeddedGraphDatabase("accessingdataneo4j.db");
@@ -200,33 +278,11 @@ public class Config extends Neo4jConfiguration {
 	@Autowired
 	PersonRepository repository;
 
-}
-```
-
-In our configuration, we need to add the `@EnableNeo4jRepositories` as well as extend the `Neo4jConfiguration` class to conveniently spin up needed components.
-
-One piece that's missing and requires us to choose, is providing a graph database service. In this case, we are picking the `EmbeddedGraphDatabase` which creates and re-uses a file-based data store at **accessingdataneo4j.db**.
-
-Finally, we autowire an instance of `PersonRepository` that we just defined up above. Spring Data Neo4j will dynamically create a concrete class that implements our interface and will plugin the needed query code to meet the interface's obligations.
-
-Now let's build an application to use it!
-
-Building an application
------------------------
-For the purposes of this guide, we will create three people, and link them together. Then we can query them. This is an incredibly simple set of relationships to demonstrate the power of Neo4j. 
-
-```java
-package accessingdataneo4j;
-
-import org.neo4j.graphdb.Transaction;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import org.springframework.data.neo4j.core.GraphDatabase;
-
-public class Application {
-	
-	public static void main(String[] args) {
-		AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext(Config.class);
-
+	public static void main(String[] args) throws IOException {
+		FileUtils.deleteRecursively(new File("accessingdataneo4j.db"));
+		
+		AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext(Application.class);
+		
 		Person greg = new Person("Greg");
 		Person roy = new Person("Roy");
 		Person craig = new Person("Craig");
@@ -272,40 +328,84 @@ public class Application {
 			System.out.println(person.name + " works with Greg.");
 		}
 		
+		ctx.close();
+		
 	}
 	
 }
 ```
 
-In this case, we are creating three local `Person`s, Greg, Roy, and Craig. Initially, they only exist in memory. It's also important to note that no one is a teammate to anyone (yet).
+In the configuration, you need to add the `@EnableNeo4jRepositories` annotation as well as extend the `Neo4jConfiguration` class to conveniently spin up needed components.
 
-To store anything in Neo4j, we must start a transaction using the `graphDatabase`. In there, we will save each person. Then, we need to fetch each person, and link them together.
+One piece that's missing is the graph database service bean. In this case, you are picking the `EmbeddedGraphDatabase` which creates and re-uses a file-based data store at **accessingdataneo4j.db**.
 
-At first, we find Greg and indicate that he works with Roy and Craig, then persist him again. Remember, the teammate relationship was marked at `BOTH`, i.e. bidirectional. That means that Roy and Craig will have been updated as well.
+> For production solutions, you would probably replace this with an alternative to connect to a running Neo4j server.
 
-That's why, when we need to update Roy, it's critical we fetch from Neo4j first. We need the latest status on Roy's teammates before adding Craig to the list.
+Finally, you autowire an instance of `PersonRepository` that you just defined up above. Spring Data Neo4j will dynamically create a concrete class that implements that interface and will plugin the needed query code to meet the interface's obligations.
 
-Why didn't we fetch Craig and add any relationships? Because we already have! Greg earlier tagged Craig as a teammate, and so did Roy. That means there is no need to update that again. We can see it as we iterate over each team member and print their information to the console.
-
-Finally, let's check out that other query where we look backwards, answering the question "who works with whom?"
-
-Running the Application
+Running the application
 -----------------------
-Now that we have coded everything up, let's run it!
+The `public static void main` includes code to create an application context and then define some relationships.
 
-```sh
-$ ./gradlew run
+In this case, you  are creating three local `Person`s, **Greg**, **Roy**, and **Craig**. Initially, they only exist in memory. It's also important to note that no one is a teammate to anyone (yet).
+
+To store anything in Neo4j, you must start a transaction using the `graphDatabase`. In there, you will save each person. Then, you need to fetch each person, and link them together.
+
+At first, you find **Greg** and indicate that he works with **Roy** and **Craig**, then persist him again. Remember, the teammate relationship was marked as `BOTH`, i.e. bidirectional. That means that **Roy** and **Craig** will have been updated as well.
+
+That's why when you need to update **Roy**, it's critical that you fetch that record from Neo4j first. You need the latest status on **Roy's** teammates before adding **Craig** to the list.
+
+Why is there no code that fetches **Craig** and adds any relationships? Because you already have! **Greg** earlier tagged **Craig** as a teammate, and so did **Roy**. That means there is no need to update that again. You can see it as you iterate over each team member and print their information to the console.
+
+Finally, check out that other query where you look backwards, answering the question "who works with whom?"
+
+Building the Application
+------------------------
+
+To build this application, you need to add some extra bits to your pom.xml file.
+
+```xml
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-shade-plugin</artifactId>
+				<version>2.1</version>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>shade</goal>
+						</goals>
+						<configuration>
+							<transformers>
+								<transformer
+									implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+									<mainClass>hello.Application</mainClass>
+								</transformer>
+							</transformers>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
 ```
 
-We should see something like:
+With the `maven-shade-plugin` added in, this is all you need to generate a runnable jar file.
 
-```sh
-0    [main] INFO  org.springframework.context.annotation.AnnotationConfigApplicationContext  - Refreshing org.springframework.context.annotation.AnnotationConfigApplicationContext@761b22ed: startup date [Thu May 02 16:11:04 CDT 2013]; root of context hierarchy
-342  [main] INFO  org.springframework.beans.factory.support.DefaultListableBeanFactory  - Pre-instantiating singletons in org.springframework.beans.factory.support.DefaultListableBeanFactory@63d1e70a: defining beans [org.springframework.context.annotation.internalConfigurationAnnotationProcessor,org.springframework.context.annotation.internalAutowiredAnnotationProcessor,org.springframework.context.annotation.internalRequiredAnnotationProcessor,org.springframework.context.annotation.internalCommonAnnotationProcessor,config,org.springframework.context.annotation.ConfigurationClassPostProcessor.importAwareProcessor,org.springframework.data.repository.core.support.RepositoryInterfaceAwareBeanPostProcessor#0,personRepository,graphDatabaseService,graphDatabase,mappingInfrastructure,isNewStrategyFactory,neo4jTemplate,relationshipTypeRepresentationStrategy,nodeTypeRepresentationStrategy,typeRepresentationStrategyFactory,entityStateHandler,nodeTypeMapper,relationshipTypeMapper,entityFetchHandler,nodeStateTransmitter,neo4jConversionService,graphRelationshipInstantiator,graphEntityInstantiator,neo4jMappingContext,entityAlias,relationshipEntityStateFactory,nodeEntityStateFactory,nodeDelegatingFieldAccessorFactory,relationshipDelegatingFieldAccessorFactory,neo4jTransactionManager,indexCreationMappingEventListener,configurationCheck,persistenceExceptionTranslator,indexProvider]; root of factory hierarchy
-935  [main] INFO  org.springframework.transaction.jta.JtaTransactionManager  - Using JTA UserTransaction: org.neo4j.kernel.impl.transaction.UserTransactionImpl@7c4214de
-935  [main] INFO  org.springframework.transaction.jta.JtaTransactionManager  - Using JTA TransactionManager: org.neo4j.kernel.impl.transaction.SpringTransactionManager@56683a8d
-1338 [main] DEBUG org.springframework.data.neo4j.repository.query.DerivedCypherRepositoryQuery  - Derived query: START `person`=node:__types__(className="accessingdataneo4j.Person") WHERE `person`.`name`! = {0} RETURN `person`from method Repository-Graph-Query-Method for public abstract accessingdataneo4j.Person accessingdataneo4j.PersonRepository.findByName(java.lang.String)
-1340 [main] DEBUG org.springframework.data.neo4j.repository.query.DerivedCypherRepositoryQuery  - Derived query: START `person`=node:__types__(className="accessingdataneo4j.Person") MATCH `person`-[:`TEAMMATE`]-`person_teammates` WHERE `person_teammates`.`name`! = {0} RETURN `person`from method Repository-Graph-Query-Method for public abstract java.lang.Iterable accessingdataneo4j.PersonRepository.findByTeammatesName(java.lang.String)
+    mvn package
+    
+Running the Application
+-----------------------
+
+
+Run your service with `java -jar` at the command line:
+
+    java -jar target/gs-accessing-data-neo4j-complete-0.1.0.jar
+    
+You should see something like this (with other stuff like queries as well):
+```
 Before linking up with Neo4j...
 Greg's teammates include
 
@@ -313,36 +413,30 @@ Roy's teammates include
 
 Craig's teammates include
 
-1403 [main] DEBUG org.springframework.data.neo4j.fieldaccess.DelegatingFieldAccessorFactory  - Factory org.springframework.data.neo4j.fieldaccess.IdFieldAccessorFactory@62455eba used for field: class java.lang.Long id rel: false idx: false
-1405 [main] DEBUG org.springframework.data.neo4j.fieldaccess.DelegatingFieldAccessorFactory  - Factory org.springframework.data.neo4j.fieldaccess.PropertyFieldAccessorFactory@1e28a987 used for field: class java.lang.String name rel: false idx: false
-1405 [main] DEBUG org.springframework.data.neo4j.fieldaccess.DelegatingFieldAccessorFactory  - Factory org.springframework.data.neo4j.fieldaccess.RelatedToCollectionFieldAccessorFactory@40bde86b used for field: interface java.util.Set teammates rel: true idx: false
-1410 [main] DEBUG org.springframework.data.neo4j.mapping.EntityInstantiator  - Using class accessingdataneo4j.Person no-arg constructor
 Lookup each person by name...
-1538 [main] DEBUG org.springframework.data.neo4j.support.query.CypherQueryEngine  - Executing cypher query: START `person`=node:__types__(className="accessingdataneo4j.Person") WHERE `person`.`name`! = {0} RETURN `person` params {0=Greg}
 Greg's teammates include
 	- Craig
 	- Roy
 
-2129 [main] DEBUG org.springframework.data.neo4j.support.query.CypherQueryEngine  - Executing cypher query: START `person`=node:__types__(className="accessingdataneo4j.Person") WHERE `person`.`name`! = {0} RETURN `person` params {0=Roy}
 Roy's teammates include
 	- Craig
 	- Greg
 
-2225 [main] DEBUG org.springframework.data.neo4j.support.query.CypherQueryEngine  - Executing cypher query: START `person`=node:__types__(className="accessingdataneo4j.Person") WHERE `person`.`name`! = {0} RETURN `person` params {0=Craig}
 Craig's teammates include
 	- Roy
 	- Greg
 
 Looking up who works with Greg...
-2229 [main] DEBUG org.springframework.data.neo4j.support.query.CypherQueryEngine  - Executing cypher query: START `person`=node:__types__(className="accessingdataneo4j.Person") MATCH `person`-[:`TEAMMATE`]-`person_teammates` WHERE `person_teammates`.`name`! = {0} RETURN `person` params {0=Greg}
 Roy works with Greg.
 Craig works with Greg.
 ```
 
-We can see from the output that initially no one is connected by any relationship. Then as we add people in, they are tied together. Finally, we can see our handy query that looks up people based on teammate.
+You can see from the output that initially no one is connected by any relationship. Then after adding people in, they are tied together. Finally, you can see the handy query that looks up people based on teammate.
 
-With the debug levels of Spring Data Neo4j turned up, we are also getting a glimpse of the query language used with Neo4j. We won't delve into that, but if you like, you can investigate that in some of our other Getting Started Guides.
+With the debug levels of Spring Data Neo4j turned up, you are also getting a glimpse of the query language used with Neo4j. This guide won't delve into that, but if you like, you can investigate that in some of the other Getting Started Guides.
 
-Next Steps
-----------
+Summary
+-------
 Congratulations! You just setup an embedded Neo4j server, stored some simple, related entities, and developed some quick queries.
+
+[zip]: https://github.com/springframework-meta/gs-rest-service/archive/master.zip
