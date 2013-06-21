@@ -1,4 +1,4 @@
-package accessingdataneo4j;
+package hello;
 
 import java.util.HashSet;
 import java.util.Set;

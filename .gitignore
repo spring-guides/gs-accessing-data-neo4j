@@ -25,6 +25,5 @@ build/
 
 # Test files
 
-*-uploaded
-
 accessingdataneo4j.db
+dependency-reduced-pom.xml

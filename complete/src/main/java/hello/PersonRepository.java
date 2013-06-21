@@ -1,4 +1,4 @@
-package accessingdataneo4j;
+package hello;
 
 import org.springframework.data.neo4j.repository.GraphRepository;
 
