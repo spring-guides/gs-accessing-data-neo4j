@@ -1,3 +1,4 @@
+
 Getting Started: Accessing Data with Neo4j
 ==========================================
 
@@ -9,7 +10,7 @@ This guide will walk you through the process of building an application using Ne
 What you'll need
 ----------------
 
-- About 15 minutes
+ - About 15 minutes
  - A favorite text editor or IDE
  - [JDK 6][jdk] or later
  - [Maven 3.0][mvn] or later
@@ -27,11 +28,12 @@ To **start from scratch**, move on to [Set up the project](#scratch).
 To **skip the basics**, do the following:
 
  - [Download][zip] and unzip the source repository for this guide, or clone it using [git](/understanding/git):
-`git clone https://github.com/springframework-meta/{@project-name}.git`
- - cd into `{@project-name}/initial`
- - Jump ahead to [Create a resource representation class](#initial).
+`git clone https://github.com/springframework-meta/gs-accessing-data-neo4j.git`
+ - cd into `gs-accessing-data-neo4j/initial`
+ - Jump ahead to [Defining a simple entity](#initial).
 
-**When you're finished**, you can check your results against the code in `{@project-name}/complete`.
+**When you're finished**, you can check your results against the code in `gs-accessing-data-neo4j/complete`.
+[zip]: https://github.com/springframework-meta/gs-accessing-data-neo4j/archive/master.zip
 
 
 <a name="scratch"></a>
@@ -59,7 +61,7 @@ In a project directory of your choosing, create the following subdirectory struc
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.springframework</groupId>
-    <artifactId>gs-acessing-data-neo4j-initial</artifactId>
+    <artifactId>gs-acessing-data-neo4j-complete</artifactId>
     <version>0.1.0</version>
 
     <dependencies>
@@ -104,6 +106,32 @@ In a project directory of your choosing, create the following subdirectory struc
         </dependency>
     </dependencies>
     
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-shade-plugin</artifactId>
+				<version>2.1</version>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>shade</goal>
+						</goals>
+						<configuration>
+							<transformers>
+								<transformer
+									implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+									<mainClass>hello.Application</mainClass>
+								</transformer>
+							</transformers>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+
     <!-- TODO: remove once bootstrap goes GA -->
     <repositories>
         <repository>
@@ -359,7 +387,8 @@ Why is there no code that fetches **Craig** and adds any relationships? Because 
 
 Finally, check out that other query where you look backwards, answering the question "who works with whom?"
 
-Building the Application
+
+Build the application
 ------------------------
 
 To build this application, you need to add some extra bits to your pom.xml file.
@@ -392,13 +421,16 @@ To build this application, you need to add some extra bits to your pom.xml file.
 	</build>
 ```
 
-With the `maven-shade-plugin` added in, this is all you need to generate a runnable jar file.
+The [Maven Shade plugin][maven-shade-plugin] extracts classes from all jars on the classpath and builds a single "über-jar", which makes it more convenient to execute and transport your service.
+
+Now run the following to produce a single executable JAR file containing all necessary dependency classes and resources:
 
     mvn package
+
+[maven-shade-plugin]: https://maven.apache.org/plugins/maven-shade-plugin
     
 Running the Application
 -----------------------
-
 
 Run your service with `java -jar` at the command line:
 
@@ -438,5 +470,3 @@ With the debug levels of Spring Data Neo4j turned up, you are also getting a gli
 Summary
 -------
 Congratulations! You just setup an embedded Neo4j server, stored some simple, related entities, and developed some quick queries.
-
-[zip]: https://github.com/springframework-meta/gs-rest-service/archive/master.zip
