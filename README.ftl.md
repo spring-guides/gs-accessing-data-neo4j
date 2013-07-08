@@ -55,7 +55,7 @@ Finally, you have a convenient `toString()` method to print out the person's nam
 
 Create simple queries
 ---------------------
-Spring Data for Neo4j is focused on storing data in Neo4j. But it inherits functionality from the Spring Data Commons project, including the ability to derive queries. Essentially, you don't have to learn the query language of Neo4j, but can simply write a handful of methods and the queries are written for you.
+Spring Data Neo4j is focused on storing data in Neo4j. But it inherits functionality from the Spring Data Commons project, including the ability to derive queries. Essentially, you don't have to learn the query language of Neo4j, but can simply write a handful of methods and the queries are written for you.
 
 To see how this works, create an interface that queries `Person` nodes.
 
@@ -77,7 +77,7 @@ In the configuration, you need to add the `@EnableNeo4jRepositories` annotation 
 
 One piece that's missing is the graph database service bean. In this case, you are using the `EmbeddedGraphDatabase`, which creates and reuses a file-based data store at **accessingdataneo4j.db**.
 
-> **Note:** For production solutions, you would probably replace this with an alternative to connect to a running Neo4j server.
+> **Note:** In a production environment, you would probably connect to a standalone, running Neo4j server instead.
 
 You autowire an instance of `PersonRepository` that you defined earlier. Spring Data Neo4j will dynamically create a concrete class that implements that interface and will plug in the needed query code to meet the interface's obligations.
 
