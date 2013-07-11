@@ -5,8 +5,10 @@ There's more to data persistence than what is presented here. You may want to co
 ### Getting Started Guides
 
 * [Accessing Relational Data][gs-relational-data-access]
+* [Accessing Data with JPA][gs-accessing-data-jpa]
 * [Accessing Data with GemFire][gs-accessing-data-gemfire]
 
+[gs-accessing-data-jpa]: /guides/gs/accessing-data-jpa/content
 [gs-accessing-data-gemfire]: /guides/gs/accessing-data-gemfire/content
 [gs-relational-data-access]: /guides/gs/relational-data-access/content
 
