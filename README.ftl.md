@@ -27,7 +27,7 @@ Set up the project
 
 ### Create a Maven POM
 
-    <@snippet path="pom.xml" prefix="complete"/>
+    <@snippet path="pom.xml" prefix="initial"/>
 
 This guide also uses log4j with certain log levels turned up so that you can see what Neo4j and Spring Data are doing.
 
