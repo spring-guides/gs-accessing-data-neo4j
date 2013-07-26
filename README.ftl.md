@@ -1,8 +1,5 @@
 <#assign project_id="gs-accessing-data-neo4j">
 
-Getting Started: Accessing Data with Neo4j
-==========================================
-
 What you'll build
 -----------------
 

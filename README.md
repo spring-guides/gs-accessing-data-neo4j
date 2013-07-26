@@ -1,7 +1,4 @@
 
-Getting Started: Accessing Data with Neo4j
-==========================================
-
 What you'll build
 -----------------
 
