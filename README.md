@@ -64,43 +64,43 @@ In a project directory of your choosing, create the following subdirectory struc
 
     <dependencies>
         <dependency>
-        	<groupId>org.springframework</groupId>
-        	<artifactId>spring-context</artifactId>
-        	<version>3.2.3.RELEASE</version>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+            <version>3.2.3.RELEASE</version>
         </dependency>
         <dependency>
-        	<groupId>org.springframework</groupId>
-        	<artifactId>spring-tx</artifactId>
-        	<version>3.2.3.RELEASE</version>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-tx</artifactId>
+            <version>3.2.3.RELEASE</version>
         </dependency>
         <dependency>
-        	<groupId>org.springframework.data</groupId>
-        	<artifactId>spring-data-neo4j</artifactId>
-        	<version>2.2.0.RELEASE</version>
-        	<exclusions>
-        		<exclusion>
-        			<groupId>org.springframework</groupId>
-        			<artifactId>spring-context</artifactId>
-        		</exclusion>
-        		<exclusion>
-        			<groupId>org.springframework</groupId>
-        			<artifactId>spring-tx</artifactId>
-        		</exclusion>
-        		<exclusion>
-        			<groupId>org.springframework</groupId>
-        			<artifactId>spring-aspects</artifactId>
-        		</exclusion>
-        	</exclusions>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-neo4j</artifactId>
+            <version>2.2.0.RELEASE</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring-context</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring-tx</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring-aspects</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
-        	 <groupId>javax.validation</groupId>
-        	 <artifactId>validation-api</artifactId>
-        	 <version>1.0.0.GA</version>
+             <groupId>javax.validation</groupId>
+             <artifactId>validation-api</artifactId>
+             <version>1.0.0.GA</version>
         </dependency>
         <dependency>
-        	 <groupId>org.slf4j</groupId>
-        	 <artifactId>slf4j-log4j12</artifactId>
-        	 <version>1.7.5</version>
+             <groupId>org.slf4j</groupId>
+             <artifactId>slf4j-log4j12</artifactId>
+             <version>1.7.5</version>
         </dependency>
     </dependencies>
     
@@ -175,32 +175,32 @@ import org.springframework.data.neo4j.annotation.RelatedTo;
 @NodeEntity
 public class Person {
 
-	@GraphId Long id;
-	public String name;
-	
-	public Person() {}
-	public Person(String name) { this.name = name; }
-	
-	@RelatedTo(type="TEAMMATE", direction=Direction.BOTH)
-	public @Fetch Set<Person> teammates;
-	
-	public void worksWith(Person person) {
-		if (teammates == null) {
-			teammates = new HashSet<Person>();
-		}
-		teammates.add(person);
-	}
-	
-	public String toString() {
-		String results = name + "'s teammates include\n";
-		if (teammates != null) {
-			for (Person person : teammates) {
-				results += "\t- " + person.name + "\n";
-			}
-		}
-		return results;
-	}
-	
+    @GraphId Long id;
+    public String name;
+
+    public Person() {}
+    public Person(String name) { this.name = name; }
+
+    @RelatedTo(type="TEAMMATE", direction=Direction.BOTH)
+    public @Fetch Set<Person> teammates;
+
+    public void worksWith(Person person) {
+        if (teammates == null) {
+            teammates = new HashSet<Person>();
+        }
+        teammates.add(person);
+    }
+
+    public String toString() {
+        String results = name + "'s teammates include\n";
+        if (teammates != null) {
+            for (Person person : teammates) {
+                results += "\t- " + person.name + "\n";
+            }
+        }
+        return results;
+    }
+
 }
 ```
 
@@ -229,10 +229,10 @@ package hello;
 import org.springframework.data.neo4j.repository.GraphRepository;
 
 public interface PersonRepository extends GraphRepository<Person> {
-	
-	Person findByName(String name);
-	
-	Iterable<Person> findByTeammatesName(String name);
+
+    Person findByName(String name);
+
+    Iterable<Person> findByTeammatesName(String name);
 
 }
 ```
@@ -268,69 +268,69 @@ import org.springframework.data.neo4j.core.GraphDatabase;
 @Configuration
 @EnableNeo4jRepositories
 public class Application extends Neo4jConfiguration {
-	
-	@Bean
-	EmbeddedGraphDatabase graphDatabaseService() {
-		return new EmbeddedGraphDatabase("accessingdataneo4j.db");
-	}
 
-	@Autowired
-	PersonRepository repository;
+    @Bean
+    EmbeddedGraphDatabase graphDatabaseService() {
+        return new EmbeddedGraphDatabase("accessingdataneo4j.db");
+    }
 
-	public static void main(String[] args) throws IOException {
-		FileUtils.deleteRecursively(new File("accessingdataneo4j.db"));
-		
-		AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext(Application.class);
-		
-		Person greg = new Person("Greg");
-		Person roy = new Person("Roy");
-		Person craig = new Person("Craig");
-		
-		System.out.println("Before linking up with Neo4j...");
-		for (Person person : new Person[]{greg, roy, craig}) {
-			System.out.println(person);
-		}
-		
-		PersonRepository personRepository = ctx.getBean(PersonRepository.class);
-		GraphDatabase graphDatabase = ctx.getBean(GraphDatabase.class);
-				
-		Transaction tx = graphDatabase.beginTx();
-		try {
-			personRepository.save(greg);
-			personRepository.save(roy);
-			personRepository.save(craig);
-			
-			greg = personRepository.findByName(greg.name);
-			greg.worksWith(roy);
-			greg.worksWith(craig);
-			personRepository.save(greg);
+    @Autowired
+    PersonRepository repository;
 
-			roy = personRepository.findByName(roy.name);
-			roy.worksWith(craig);
-			// We already know that roy works with greg
-			personRepository.save(roy);
-			
-			// We already know craig works with roy and greg
+    public static void main(String[] args) throws IOException {
+        FileUtils.deleteRecursively(new File("accessingdataneo4j.db"));
 
-			tx.success();
-		} finally {
-			tx.finish();
-		}
-		
-		System.out.println("Lookup each person by name...");
-		for (String name: new String[]{greg.name, roy.name, craig.name}) {
-			System.out.println(personRepository.findByName(name));
-		}
-		
-		System.out.println("Looking up who works with Greg...");
-		for (Person person : personRepository.findByTeammatesName("Greg")) {
-			System.out.println(person.name + " works with Greg.");
-		}
-		
-		ctx.close();
-		
-	}
-	
+        AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext(Application.class);
+
+        Person greg = new Person("Greg");
+        Person roy = new Person("Roy");
+        Person craig = new Person("Craig");
+
+        System.out.println("Before linking up with Neo4j...");
+        for (Person person : new Person[]{greg, roy, craig}) {
+            System.out.println(person);
+        }
+
+        PersonRepository personRepository = ctx.getBean(PersonRepository.class);
+        GraphDatabase graphDatabase = ctx.getBean(GraphDatabase.class);
+
+        Transaction tx = graphDatabase.beginTx();
+        try {
+            personRepository.save(greg);
+            personRepository.save(roy);
+            personRepository.save(craig);
+            
+            greg = personRepository.findByName(greg.name);
+            greg.worksWith(roy);
+            greg.worksWith(craig);
+            personRepository.save(greg);
+
+            roy = personRepository.findByName(roy.name);
+            roy.worksWith(craig);
+            // We already know that roy works with greg
+            personRepository.save(roy);
+            
+            // We already know craig works with roy and greg
+
+            tx.success();
+        } finally {
+            tx.finish();
+        }
+
+        System.out.println("Lookup each person by name...");
+        for (String name: new String[]{greg.name, roy.name, craig.name}) {
+            System.out.println(personRepository.findByName(name));
+        }
+
+        System.out.println("Looking up who works with Greg...");
+        for (Person person : personRepository.findByTeammatesName("Greg")) {
+            System.out.println(person.name + " works with Greg.");
+        }
+
+        ctx.close();
+
+    }
+
 }
 ```
 
