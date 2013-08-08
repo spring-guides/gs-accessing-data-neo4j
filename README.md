@@ -1,8 +1,9 @@
+This guide walks you through the process of using Spring Data to build an application with Neo4j.
 
 What you'll build
 -----------------
 
-This guide walks you through the process of using Spring Data to build an application with Neo4j. You'll learn how to persist objects and relationships in Neo4j's No-SQL graph-based data store.
+You'll learn how to persist objects and relationships in Neo4j's [NoSQL][u-nosql] graph-based data store.
 
 What you'll need
 ----------------
@@ -37,7 +38,7 @@ To **skip the basics**, do the following:
 Set up the project
 ------------------
 
-First you set up a basic build script. You can use any build system you like when building apps with Spring, but the code you need to work with [Maven](https://maven.apache.org) and [Gradle](http://gradle.org) is included here. If you're not familiar with either, refer to [Building Java Projects with Maven](/guides/gs/maven/) or [Building Java Projects with Gradle](/guides/gs/gradle/).
+First you set up a basic build script. You can use any build system you like when building apps with Spring, but the code you need to work with [Maven](https://maven.apache.org) and [Gradle](http://gradle.org) is included here. If you're not familiar with either, refer to [Building Java Projects with Maven](/guides/gs/maven) or [Building Java Projects with Gradle](/guides/gs/gradle/).
 
 ### Create the directory structure
 
@@ -444,3 +445,5 @@ With the debug levels of Spring Data Neo4j turned up, you are also getting a gli
 Summary
 -------
 Congratulations! You just set up an embedded Neo4j server, stored some simple, related entities, and developed some quick queries.
+
+[u-nosql]: /understanding/nosql

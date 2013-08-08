@@ -1,9 +1,10 @@
 <#assign project_id="gs-accessing-data-neo4j">
+This guide walks you through the process of using Spring Data to build an application with Neo4j.
 
 What you'll build
 -----------------
 
-This guide walks you through the process of using Spring Data to build an application with Neo4j. You'll learn how to persist objects and relationships in Neo4j's No-SQL graph-based data store.
+You'll learn how to persist objects and relationships in Neo4j's [NoSQL][u-nosql] graph-based data store.
 
 What you'll need
 ----------------
@@ -131,3 +132,5 @@ With the debug levels of Spring Data Neo4j turned up, you are also getting a gli
 Summary
 -------
 Congratulations! You just set up an embedded Neo4j server, stored some simple, related entities, and developed some quick queries.
+
+[u-nosql]: /understanding/nosql
