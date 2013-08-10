@@ -455,4 +455,4 @@ Summary
 -------
 Congratulations! You just set up an embedded Neo4j server, stored some simple, related entities, and developed some quick queries.
 
-[u-nosql]: /understanding/nosql
+[u-nosql]: /understanding/NoSQL
