@@ -1,10 +1,10 @@
-### Related Resources
+## Related resources
 
-There's more to data persistence than what is presented here. You may want to continue your exploration of data access using Spring with the following
+There's more to data persistence than what is covered here. You can continue to explore data access and Spring with the following resources.
 
 ### Getting Started Guides
 
-* [Accessing Relational Data][gs-relational-data-access]
+* [Accessing Relational Data with Spring][gs-relational-data-access]
 * [Accessing Data with JPA][gs-accessing-data-jpa]
 * [Accessing Data with GemFire][gs-accessing-data-gemfire]
 
@@ -18,7 +18,7 @@ There's more to data persistence than what is presented here. You may want to co
 
 [tut-rest]: /guides/tutorials/rest
 
-### Understanding
+### Concepts and technologies
 
 * [NoSQL][u-nosql]
 * [REST][u-rest]
