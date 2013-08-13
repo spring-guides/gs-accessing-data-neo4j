@@ -4,7 +4,7 @@ This guide walks you through the process of using Spring Data to build an applic
 What you'll build
 -----------------
 
-You'll learn how to persist objects and relationships in Neo4j's [NoSQL][u-nosql] graph-based data store.
+You'll use Neo4j's [NoSQL][u-nosql] graph-based data store to build an embedded Neo4j server, store entities and relationships, and develop queries.
 
 What you'll need
 ----------------
@@ -65,7 +65,7 @@ But you can define other queries as needed by simply declaring their method sign
 
 Let's wire this up and see what it looks like!
 
-Create an application class
+Create an Application class
 ---------------------------------
 Create an Application class with all the components.
 
