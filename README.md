@@ -11,9 +11,10 @@ What you'll need
  - About 15 minutes
  - A favorite text editor or IDE
  - [JDK 6][jdk] or later
- - [Maven 3.0][mvn] or later
+ - [Gradle 1.7+][gradle] or [Maven 3.0+][mvn]
 
 [jdk]: http://www.oracle.com/technetwork/java/javase/downloads/index.html
+[gradle]: http://www.gradle.org/
 [mvn]: http://maven.apache.org/download.cgi
 
 How to complete this guide
@@ -39,7 +40,7 @@ To **skip the basics**, do the following:
 Set up the project
 ------------------
 
-First you set up a basic build script. You can use any build system you like when building apps with Spring, but the code you need to work with [Maven](https://maven.apache.org) and [Gradle](http://gradle.org) is included here. If you're not familiar with either, refer to [Building Java Projects with Maven](/guides/gs/maven) or [Building Java Projects with Gradle](/guides/gs/gradle/).
+First you set up a basic build script. You can use any build system you like when building apps with Spring, but the code you need to work with [Gradle](http://gradle.org) and [Maven](https://maven.apache.org) is included here. If you're not familiar with either, refer to [Building Java Projects with Gradle](/guides/gs/gradle/) or [Building Java Projects with Maven](/guides/gs/maven).
 
 ### Create the directory structure
 
@@ -67,12 +68,12 @@ In a project directory of your choosing, create the following subdirectory struc
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-context</artifactId>
-            <version>3.2.3.RELEASE</version>
+            <version>3.2.4.RELEASE</version>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-tx</artifactId>
-            <version>3.2.3.RELEASE</version>
+            <version>3.2.4.RELEASE</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.data</groupId>
