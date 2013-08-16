@@ -23,9 +23,9 @@ Set up the project
 
 <@create_directory_structure_hello/>
 
-### Create a Maven POM
+### Create a Gradle build file
 
-    <@snippet path="pom.xml" prefix="initial"/>
+    <@snippet path="build.gradle" prefix="initial"/>
 
 This guide also uses log4j with certain log levels turned up so that you can see what Neo4j and Spring Data are doing.
 
@@ -94,9 +94,11 @@ Why is there no code that fetches Craig and adds any relationships? Because you 
 Finally, check out that other query where you look backwards, answering the question "who works with whom?"
 
 
-## <@build_the_application/>
+<@build_an_executable_jar_subhead/>
 
-<@run_the_application/>
+<@build_an_executable_jar_with_gradle/>
+
+<@run_the_application_with_gradle/>
     
 You should see something like this (with other stuff like queries as well):
 ```

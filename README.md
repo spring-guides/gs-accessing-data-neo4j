@@ -51,99 +51,44 @@ In a project directory of your choosing, create the following subdirectory struc
             └── java
                 └── hello
 
-### Create a Maven POM
+### Create a Gradle build file
 
-`pom.xml`
-```xml
-<?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
+`build.gradle`
+```gradle
+buildscript {
+    repositories {
+        maven { url "http://repo.springsource.org/libs-snapshot" }
+        mavenLocal()
+    }
+}
 
-    <groupId>org.springframework</groupId>
-    <artifactId>gs-acessing-data-neo4j</artifactId>
-    <version>0.1.0</version>
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'idea'
 
-    <dependencies>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-context</artifactId>
-            <version>3.2.4.RELEASE</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-tx</artifactId>
-            <version>3.2.4.RELEASE</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.data</groupId>
-            <artifactId>spring-data-neo4j</artifactId>
-            <version>2.2.0.RELEASE</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.springframework</groupId>
-                    <artifactId>spring-context</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.springframework</groupId>
-                    <artifactId>spring-tx</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.springframework</groupId>
-                    <artifactId>spring-aspects</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <dependency>
-             <groupId>javax.validation</groupId>
-             <artifactId>validation-api</artifactId>
-             <version>1.0.0.GA</version>
-        </dependency>
-        <dependency>
-             <groupId>org.slf4j</groupId>
-             <artifactId>slf4j-log4j12</artifactId>
-             <version>1.7.5</version>
-        </dependency>
-    </dependencies>
+jar {
+    baseName = 'gs-acessing-data-neo4j'
+    version =  '0.1.0'
+}
 
-    <build>
-        <plugins>
-            <plugin>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>2.3.2</version>
-            </plugin>
-        </plugins>
-    </build>
-    
-    <repositories>
-        <repository>
-            <id>spring-snapshots</id>
-            <name>Spring Snapshots</name>
-            <url>http://repo.springsource.org/libs-snapshot</url>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
-        </repository>
-        <repository>
-            <id>neo4j</id>
-            <name>Neo4j</name>
-            <url>http://m2.neo4j.org/</url>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
-        </repository>
-    </repositories>
-    <pluginRepositories>
-        <pluginRepository>
-            <id>spring-snapshots</id>
-            <name>Spring Snapshots</name>
-            <url>http://repo.springsource.org/libs-snapshot</url>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
-        </pluginRepository>
-    </pluginRepositories>
-</project>
+repositories {
+    mavenCentral()
+    maven { url "http://repo.springsource.org/libs-snapshot" }
+    maven { url "http://m2.neo4j.org" }
+}
+
+dependencies {
+    compile("org.springframework:spring-context:3.2.4.RELEASE")
+    compile("org.springframework:spring-tx:3.2.4.RELEASE")
+    compile("org.springframework.data:spring-data-neo4j:2.2.2.RELEASE")
+    compile("javax.validation:validation-api:1.0.0.GA")
+    compile("org.slf4j:slf4j-log4j12:1.7.5")
+    testCompile("junit:junit:4.11")
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '1.7'
+}
 ```
 
 This guide also uses log4j with certain log levels turned up so that you can see what Neo4j and Spring Data are doing.
@@ -368,57 +313,49 @@ Why is there no code that fetches Craig and adds any relationships? Because you 
 Finally, check out that other query where you look backwards, answering the question "who works with whom?"
 
 
-Build the application
-------------------------
+### Build an executable JAR
 
-To build this application, you need to add some extra bits to your pom.xml file.
+Now that your `Application` class is ready, you simply instruct the build system to create a single, executable jar containing everything. This makes it easy to ship, version, and deploy the service as an application throughout the development lifecycle, across different environments, and so forth.
 
-```xml
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-shade-plugin</artifactId>
-				<version>2.1</version>
-				<executions>
-					<execution>
-						<phase>package</phase>
-						<goals>
-							<goal>shade</goal>
-						</goals>
-						<configuration>
-							<transformers>
-								<transformer
-									implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-									<mainClass>hello.Application</mainClass>
-								</transformer>
-							</transformers>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-		</plugins>
-	</build>
+Add the following configuration to your existing Gradle build file:
+
+`build.gradle`
+```groovy
+buildscript {
+    ...
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:0.5.0.BUILD-SNAPSHOT")
+    }
+}
+
+apply plugin: 'spring-boot'
 ```
 
-The [Maven Shade plugin][maven-shade-plugin] extracts classes from all jars on the classpath and builds a single "über-jar", which makes it more convenient to execute and transport your service.
+The [Spring Boot gradle plugin][spring-boot-gradle-plugin] collects all the jars on the classpath and builds a single "über-jar", which makes it more convenient to execute and transport your service.
+It also searches for the `public static void main()` method to flag as a runnable class.
 
-Now run the following to produce a single executable JAR file containing all necessary dependency classes and resources:
+Now run the following command to produce a single executable JAR file containing all necessary dependency classes and resources:
 
 ```sh
-$ mvn package
+$ ./gradlew build
 ```
 
-[maven-shade-plugin]: https://maven.apache.org/plugins/maven-shade-plugin
+Now you can run the JAR by typing:
+
+```sh
+$ java -jar build/libs/gs-accessing-data-neo4j-0.1.0.jar
+```
+
+[spring-boot-gradle-plugin]: https://github.com/SpringSource/spring-boot/tree/master/spring-boot-tools/spring-boot-gradle-plugin
 
 > **Note:** The procedure above will create a runnable JAR. You can also opt to [build a classic WAR file](/guides/gs/convert-jar-to-war/) instead.
 
-Run the application
+Run the service
 -------------------
-Run your application with `java -jar` at the command line:
+Run your service at the command line:
 
 ```sh
-$ java -jar target/gs-accessing-data-neo4j-0.1.0.jar
+$ ./gradlew clean build && java -jar build/libs/gs-accessing-data-neo4j-0.1.0.jar
 ```
 
     
