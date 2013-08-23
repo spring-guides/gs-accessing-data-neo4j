@@ -23,9 +23,8 @@ Set up the project
 
 <@create_directory_structure_hello/>
 
-### Create a Gradle build file
 
-    <@snippet path="build.gradle" prefix="initial"/>
+<@create_both_builds/>
 
 This guide also uses log4j with certain log levels turned up so that you can see what Neo4j and Spring Data are doing.
 
@@ -96,9 +95,9 @@ Finally, check out that other query where you look backwards, answering the ques
 
 <@build_an_executable_jar_subhead/>
 
-<@build_an_executable_jar_with_gradle/>
+<@build_an_executable_jar_with_both/>
 
-<@run_the_application_with_gradle/>
+<@run_the_application_with_both/>
     
 You should see something like this (with other stuff like queries as well):
 ```
