@@ -15,7 +15,9 @@ There's more to data persistence than what is covered here. You can continue to 
 ### Tutorials
 
 * [Designing and Implementing RESTful Web Services with Spring][tut-rest]
+* [Persisting Data with Spring][tut-data]
 
+[tut-data]: /guides/tutorials/data/
 [tut-rest]: /guides/tutorials/rest
 
 ### Concepts and technologies
