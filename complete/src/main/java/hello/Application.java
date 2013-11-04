@@ -1,7 +1,6 @@
 package hello;
 
 import java.io.File;
-import java.io.IOException;
 
 import org.neo4j.graphdb.Transaction;
 import org.neo4j.kernel.EmbeddedGraphDatabase;
@@ -13,10 +12,12 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.data.neo4j.config.EnableNeo4jRepositories;
 import org.springframework.data.neo4j.config.Neo4jConfiguration;
 import org.springframework.data.neo4j.core.GraphDatabase;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.boot.SpringApplication;
 
 @Configuration
 @EnableNeo4jRepositories
-public class Application extends Neo4jConfiguration {
+public class Application extends Neo4jConfiguration implements CommandLineRunner {
 
     @Bean
     EmbeddedGraphDatabase graphDatabaseService() {
@@ -24,13 +25,12 @@ public class Application extends Neo4jConfiguration {
     }
 
     @Autowired
-    PersonRepository repository;
+    PersonRepository personRepository;
 
-    public static void main(String[] args) throws IOException {
-        FileUtils.deleteRecursively(new File("accessingdataneo4j.db"));
+    @Autowired
+    GraphDatabase graphDatabase;
 
-        AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext(Application.class);
-
+    public void run(String... args) throws Exception {
         Person greg = new Person("Greg");
         Person roy = new Person("Roy");
         Person craig = new Person("Craig");
@@ -39,9 +39,6 @@ public class Application extends Neo4jConfiguration {
         for (Person person : new Person[]{greg, roy, craig}) {
             System.out.println(person);
         }
-
-        PersonRepository personRepository = ctx.getBean(PersonRepository.class);
-        GraphDatabase graphDatabase = ctx.getBean(GraphDatabase.class);
 
         Transaction tx = graphDatabase.beginTx();
         try {
@@ -75,9 +72,12 @@ public class Application extends Neo4jConfiguration {
         for (Person person : personRepository.findByTeammatesName("Greg")) {
             System.out.println(person.name + " works with Greg.");
         }
+    }
 
-        ctx.close();
+    public static void main(String[] args) throws Exception {
+        FileUtils.deleteRecursively(new File("accessingdataneo4j.db"));
 
+        SpringApplication.run(Application.class, args);
     }
 
 }
