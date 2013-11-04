@@ -80,7 +80,7 @@ One piece that's missing is the graph database service bean. In this case, you a
 
 You autowire an instance of `PersonRepository` that you defined earlier. Spring Data Neo4j will dynamically create a concrete class that implements that interface and will plug in the needed query code to meet the interface's obligations.
 
-The `public static void main` includes code to create an application context and then define relationships.
+The `public statuc void main` uses Spring Boot's `SpringApplication.run()` to launch the application and invoke the `CommandLineRunner` that builds the relationships.
 
 In this case, you create three local `Person`s, **Greg**, **Roy**, and **Craig**.Initially, they only exist in memory. It's also important to note that no one is a teammate of anyone (yet).
 
