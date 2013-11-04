@@ -82,6 +82,7 @@ repositories {
 }
 
 dependencies {
+    compile("org.springframework.boot:spring-boot-starter:0.5.0.M5")
     compile("org.springframework:spring-context:4.0.0.M3")
     compile("org.springframework:spring-tx:4.0.0.M3")
     compile("org.springframework.data:spring-data-neo4j:2.3.2.RELEASE")
