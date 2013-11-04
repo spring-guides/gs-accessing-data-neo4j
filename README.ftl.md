@@ -26,6 +26,8 @@ Set up the project
 
 <@create_both_builds/>
 
+<@bootstrap_starter_pom_disclaimer/>
+
 This guide also uses log4j with certain log levels turned up so that you can see what Neo4j and Spring Data are doing.
 
     <@snippet path="src/main/resources/log4j.properties" prefix="initial"/>

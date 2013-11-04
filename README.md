@@ -82,8 +82,8 @@ repositories {
 }
 
 dependencies {
-    compile("org.springframework:spring-context:3.2.4.RELEASE")
-    compile("org.springframework:spring-tx:3.2.4.RELEASE")
+    compile("org.springframework:spring-context:4.0.0.M3")
+    compile("org.springframework:spring-tx:4.0.0.M3")
     compile("org.springframework.data:spring-data-neo4j:2.3.2.RELEASE")
     compile("javax.validation:validation-api:1.0.0.GA")
     compile("org.slf4j:slf4j-log4j12:1.7.5")
@@ -96,6 +96,8 @@ task wrapper(type: Wrapper) {
 ```
     
 [gs-sts]: /guides/gs/sts    
+
+> **Note:** This guide is using [Spring Boot](/guides/gs/spring-boot/).
 
 This guide also uses log4j with certain log levels turned up so that you can see what Neo4j and Spring Data are doing.
 
