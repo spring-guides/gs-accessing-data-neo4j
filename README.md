@@ -61,7 +61,7 @@ Below is the [initial Gradle build file](https://github.com/spring-guides/gs-acc
 ```gradle
 buildscript {
     repositories {
-        maven { url "http://repo.spring.io/libs-snapshot" }
+        maven { url "http://repo.spring.io/libs-milestone" }
         mavenLocal()
     }
 }
@@ -77,7 +77,7 @@ jar {
 
 repositories {
     mavenCentral()
-    maven { url "http://repo.spring.io/libs-snapshot" }
+    maven { url "http://repo.spring.io/libs-milestone" }
     maven { url "http://m2.neo4j.org" }
 }
 
