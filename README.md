@@ -54,49 +54,100 @@ In a project directory of your choosing, create the following subdirectory struc
                 └── hello
 
 
-### Create a Gradle build file
-Below is the [initial Gradle build file](https://github.com/spring-guides/gs-accessing-data-neo4j/blob/master/initial/build.gradle). But you can also use Maven. The pom.xml file is included [right here](https://github.com/spring-guides/gs-accessing-data-neo4j/blob/master/initial/pom.xml). If you are using [Spring Tool Suite (STS)][gs-sts], you can import the guide directly.
+### Create a Maven build file
 
-`build.gradle`
-```gradle
-buildscript {
-    repositories {
-        maven { url "http://repo.spring.io/libs-milestone" }
-        mavenLocal()
-    }
-}
+`pom.xml`
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
 
-apply plugin: 'java'
-apply plugin: 'eclipse'
-apply plugin: 'idea'
+    <groupId>org.springframework</groupId>
+    <artifactId>gs-acessing-data-neo4j</artifactId>
+    <version>0.1.0</version>
 
-jar {
-    baseName = 'gs-acessing-data-neo4j'
-    version =  '0.1.0'
-}
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>0.5.0.M6</version>
+    </parent>
 
-repositories {
-    mavenCentral()
-    maven { url "http://repo.spring.io/libs-milestone" }
-    maven { url "http://m2.neo4j.org" }
-}
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-tx</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-neo4j</artifactId>
+            <version>2.3.2.RELEASE</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring-context</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring-tx</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring-aspects</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+             <groupId>javax.validation</groupId>
+             <artifactId>validation-api</artifactId>
+             <version>1.0.0.GA</version>
+        </dependency>
+        <dependency>
+             <groupId>org.slf4j</groupId>
+             <artifactId>slf4j-log4j12</artifactId>
+        </dependency>
+    </dependencies>
 
-dependencies {
-    compile("org.springframework.boot:spring-boot-starter:0.5.0.M5")
-    compile("org.springframework:spring-context:4.0.0.M3")
-    compile("org.springframework:spring-tx:4.0.0.M3")
-    compile("org.springframework.data:spring-data-neo4j:2.3.2.RELEASE")
-    compile("javax.validation:validation-api:1.0.0.GA")
-    compile("org.slf4j:slf4j-log4j12:1.7.5")
-    testCompile("junit:junit:4.11")
-}
+    <build>
+        <plugins>
+            <plugin> 
+                <artifactId>maven-compiler-plugin</artifactId> 
+                <version>3.1</version> 
+            </plugin>
+        </plugins>
+    </build>
 
-task wrapper(type: Wrapper) {
-    gradleVersion = '1.8'
-}
+    <repositories>
+        <repository>
+            <id>spring-milestones</id>
+            <name>Spring Milestones</name>
+            <url>http://repo.spring.io/libs-milestone</url>
+        </repository>
+        <repository>
+            <id>neo4j</id>
+            <name>Neo4j</name>
+            <url>http://m2.neo4j.org/</url>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
+
+    <pluginRepositories>
+        <pluginRepository>
+            <id>spring-milestones</id>
+            <name>Spring Milestones</name>
+            <url>http://repo.spring.io/libs-milestone</url>
+        </pluginRepository>
+    </pluginRepositories>
+
+</project>
 ```
     
-[gs-sts]: /guides/gs/sts    
 
 > **Note:** This guide is using [Spring Boot](/guides/gs/spring-boot/).
 
@@ -326,63 +377,45 @@ Finally, check out that other query where you look backwards, answering the ques
 
 Now that your `Application` class is ready, you simply instruct the build system to create a single, executable jar containing everything. This makes it easy to ship, version, and deploy the service as an application throughout the development lifecycle, across different environments, and so forth.
 
-Below are the Gradle steps, but if you are using Maven, you can find the updated pom.xml [right here](https://github.com/spring-guides/gs-accessing-data-neo4j/blob/master/complete/pom.xml) and build it by typing `mvn clean package`.
+Add the following configuration to your existing Maven POM:
 
-Update your Gradle `build.gradle` file's `buildscript` section, so that it looks like this:
+`pom.xml`
+```xml
+    <properties>
+        <start-class>hello.Application</start-class>
+    </properties>
 
-```groovy
-buildscript {
-    repositories {
-        maven { url "http://repo.spring.io/libs-snapshot" }
-        mavenLocal()
-    }
-    dependencies {
-        classpath("org.springframework.boot:spring-boot-gradle-plugin:0.5.0.M4")
-    }
-}
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
 ```
 
-Further down inside `build.gradle`, add the following to the list of applied plugins:
+The `start-class` property tells Maven to create a `META-INF/MANIFEST.MF` file with a `Main-Class: hello.Application` entry. This entry enables you to run it with `mvn spring-boot:run` (or simply run the jar itself with `java -jar`).
 
-```groovy
-apply plugin: 'spring-boot'
-```
-You can see the final version of `build.gradle` [right here]((https://github.com/spring-guides/gs-accessing-data-neo4j/blob/master/complete/build.gradle).
-
-The [Spring Boot gradle plugin][spring-boot-gradle-plugin] collects all the jars on the classpath and builds a single "über-jar", which makes it more convenient to execute and transport your service.
-It also searches for the `public static void main()` method to flag as a runnable class.
+The [Spring Boot maven plugin][spring-boot-maven-plugin] collects all the jars on the classpath and builds a single "über-jar", which makes it more convenient to execute and transport your service.
 
 Now run the following command to produce a single executable JAR file containing all necessary dependency classes and resources:
 
 ```sh
-$ ./gradlew build
+$ mvn package
 ```
 
-If you are using Gradle, you can run the JAR by typing:
-
-```sh
-$ java -jar build/libs/gs-accessing-data-neo4j-0.1.0.jar
-```
-
-If you are using Maven, you can run the JAR by typing:
-
-```sh
-$ java -jar target/gs-accessing-data-neo4j-0.1.0.jar
-```
-
-[spring-boot-gradle-plugin]: https://github.com/spring-projects/spring-boot/tree/master/spring-boot-tools/spring-boot-gradle-plugin
+[spring-boot-maven-plugin]: https://github.com/spring-projects/spring-boot/tree/master/spring-boot-tools/spring-boot-maven-plugin
 
 > **Note:** The procedure above will create a runnable JAR. You can also opt to [build a classic WAR file](/guides/gs/convert-jar-to-war/) instead.
 
 Run the service
 -------------------
-If you are using Gradle, you can run your service at the command line this way:
+Run your service using the spring-boot plugin at the command line:
 
 ```sh
-$ ./gradlew clean build && java -jar build/libs/gs-accessing-data-neo4j-0.1.0.jar
+$ mvn spring-boot:run
 ```
-
-> **Note:** If you are using Maven, you can run your service by typing `mvn clean package && java -jar target/gs-accessing-data-neo4j-0.1.0.jar`.
 
     
 You should see something like this (with other stuff like queries as well):

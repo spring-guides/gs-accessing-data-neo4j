@@ -24,7 +24,7 @@ Set up the project
 <@create_directory_structure_hello/>
 
 
-<@create_both_builds/>
+<@create_a_maven_build/>
 
 <@bootstrap_starter_pom_disclaimer/>
 
@@ -97,9 +97,9 @@ Finally, check out that other query where you look backwards, answering the ques
 
 <@build_an_executable_jar_subhead/>
 
-<@build_an_executable_jar_with_both/>
+<@build_an_executable_jar/>
 
-<@run_the_application_with_both/>
+<@run_the_application_with_maven/>
     
 You should see something like this (with other stuff like queries as well):
 ```
