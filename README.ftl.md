@@ -11,6 +11,8 @@ What you'll need
 
  - About 15 minutes
  - <@prereq_editor_jdk_buildtools/>
+ 
+> **Note:** While this guide has build files for Gradle, the upgrade to Spring Boot 0.5.0.M6 has caused Gradle builds to fail. That's why this guide is currently shown using Maven.
 
 ## <@how_to_complete_this_guide jump_ahead='Define a simple entity'/>
 
@@ -100,6 +102,8 @@ Finally, check out that other query where you look backwards, answering the ques
 <@build_an_executable_jar/>
 
 <@run_the_application_with_maven/>
+
+> **Note:** Due to issues with Spring Boot 0.5.0.M6, `mvn spring-boot:run` doesn't work. You have to run `mvn clean package && java -jar target/gs-accessing-data-neo4j.jar`
     
 You should see something like this (with other stuff like queries as well):
 ```

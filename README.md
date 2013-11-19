@@ -18,6 +18,8 @@ What you'll need
 [gradle]: http://www.gradle.org/
 [mvn]: http://maven.apache.org/download.cgi
 [gs-sts]: /guides/gs/sts
+ 
+> **Note:** While this guide has build files for Gradle, the upgrade to Spring Boot 0.5.0.M6 has caused Gradle builds to fail. That's why this guide is currently shown using Maven.
 
 How to complete this guide
 --------------------------
@@ -417,6 +419,8 @@ Run your service using the spring-boot plugin at the command line:
 $ mvn spring-boot:run
 ```
 
+
+> **Note:** Due to issues with Spring Boot 0.5.0.M6, `mvn spring-boot:run` doesn't work. You have to run `mvn clean package && java -jar target/gs-accessing-data-neo4j.jar`
     
 You should see something like this (with other stuff like queries as well):
 ```
