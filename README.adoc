@@ -10,23 +10,29 @@ You'll use Neo4j's link:/understanding/NoSQL[NoSQL] graph-based data store to bu
 
 == What you'll need
 
-include::macros/prereq_editor_jdk_buildtools.asc[]
+include::https://raw.github.com/spring-guides/getting-started-macros/master/prereq_editor_jdk_buildtools.adoc[]
 
 :jump_ahead: Define a simple entity
-include::macros/how_to_complete_this_guide.asc[]
+include::https://raw.github.com/spring-guides/getting-started-macros/master/how_to_complete_this_guide.adoc[]
 
 
 [[scratch]]
 == Set up the project
 
-include::macros/build_system_intro.asc[]
+include::https://raw.github.com/spring-guides/getting-started-macros/master/build_system_intro.adoc[]
 
-include::macros/create_directory_structure_hello.asc[]
+include::https://raw.github.com/spring-guides/getting-started-macros/master/create_directory_structure_hello.adoc[]
 
 
-include::macros/create_both_builds.asc[]
+include::https://raw.github.com/spring-guides/getting-started-macros/master/create_both_builds.adoc[]
+`build.gradle`
+// AsciiDoc source formatting doesn't support groovy, so using java instead
+[source,java]
+----
+include::initial/build.gradle[]
+----
 
-include::macros/bootstrap_starter_pom_disclaimer.asc[]
+include::https://raw.github.com/spring-guides/getting-started-macros/master/bootstrap_starter_pom_disclaimer.adoc[]
 
 This guide also uses log4j with certain log levels turned up so that you can see what Neo4j and Spring Data are doing.
 
@@ -108,11 +114,11 @@ Why is there no code that fetches Craig and adds any relationships? Because you 
 Finally, check out that other query where you look backwards, answering the question "who works with whom?"
 
 
-include::macros/build_an_executable_jar_subhead.asc[]
+include::https://raw.github.com/spring-guides/getting-started-macros/master/build_an_executable_jar_subhead.adoc[]
 
-include::macros/build_an_executable_jar_with_both.asc[]
+include::https://raw.github.com/spring-guides/getting-started-macros/master/build_an_executable_jar_with_both.adoc[]
 
-include::macros/run_the_application_with_both.asc[]
+include::https://raw.github.com/spring-guides/getting-started-macros/master/run_the_application_with_both.adoc[]
     
 You should see something like this (with other stuff like queries as well):
 ....
