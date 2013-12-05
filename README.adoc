@@ -33,15 +33,6 @@ include::initial/build.gradle[]
 
 include::https://raw.github.com/spring-guides/getting-started-macros/master/bootstrap_starter_pom_disclaimer.adoc[]
 
-This guide also uses log4j with certain log levels turned up so that you can see what Neo4j and Spring Data are doing.
-
-`src/main/resources/log4j.properties`
-[source,properties]
-----
-include::initial/src/main/resources/log4j.properties[]
-----
-
-
 [[initial]]
 == Define a simple entity
 Neo4j captures entities and their relationships, with both aspects being of equal importance. Imagine you are modeling a system where you store a record for each person. But you also want to track a person's co-workers (`teammates` in this example). With Neo4j, you can capture all that with some simple annotations.
@@ -100,7 +91,7 @@ You autowire an instance of `PersonRepository` that you defined earlier. Spring 
 
 The `public statuc void main` uses Spring Boot's `SpringApplication.run()` to launch the application and invoke the `CommandLineRunner` that builds the relationships.
 
-In this case, you create three local `Person`s, **Greg**, **Roy**, and **Craig**. Initially, they only exist in memory. It's also important to note that no one is a teammate of anyone (yet).
+In this case, you create three local `Person` s, **Greg**, **Roy**, and **Craig**. Initially, they only exist in memory. It's also important to note that no one is a teammate of anyone (yet).
 
 To store anything in Neo4j, you must start a transaction using the `graphDatabase`. In there, you will save each person. Then, you fetch each person, and link them together.
 
@@ -147,8 +138,6 @@ Craig works with Greg.
 ....
 
 You can see from the output that initially no one is connected by any relationship. Then after adding people in, they are tied together. Finally, you can see the handy query that looks up people based on teammate.
-
-With the debug levels of Spring Data Neo4j turned up, you are also getting a glimpse of the query language used with Neo4j. 
 
 == Summary
 Congratulations! You just set up an embedded Neo4j server, stored some simple, related entities, and developed some quick queries.
