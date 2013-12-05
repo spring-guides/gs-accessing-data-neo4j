@@ -49,7 +49,7 @@ NOTE: In this guide, the typical getters and setters are omitted for brevity.
 
 The `Person` class is annotated `@NodeEntity`. When Neo4j stores it, it results in the creation of a new node. This class also has an `id` marked `@GraphId`. Neo4j uses `@GraphId` internally to track the data.
 
-The next important piece is the set of `teammates`. It is a simple `Set<Person>`, but marked up as `@RelatedTo`. This means that every member of this set is expected to also exist as a separate `Person` node. Note how the direction is set to `BOTH`. This means that when you generate a `TEAMMATE` relationship in one direction, it exists in the other direction as well.
+The next important piece is the set of `teammates`. It is a simple `Set<Person>`, but marked up as `@RelatedTo`. This means that every member of this set is expected to also exist as a separate `Person` node. Note how the direction is set to `BOTH`. This means that when you generate a `TEAMMATE` relationship in one direction, it exists in the other direction as well. There is also a `@Fetch` annotation on this field as well. This causes the teammates to be eagerly retrieved. Otherwise you would have to use neo4jTemplate.fetch().
 
 With the `worksWith()` method, you can easily link people together.
 
@@ -66,7 +66,7 @@ To see how this works, create an interface that queries `Person` nodes.
 include::complete/src/main/java/hello/PersonRepository.java[]
 ----
     
-`PersonRepository` extends the `GraphRepository` class and plugs in the type it operates on: `Person`. Out-of-the-box, this interface comes with many operations, including standard CRUD (change-replace-update-delete) operations.
+`PersonRepository` extends the `GraphRepository` class and plugs in the type it operates on: `Person`. Out-of-the-box, this interface comes with many operations, including standard CRUD (create-read-update-delete) operations.
 
 But you can define other queries as needed by simply declaring their method signature. In this case, you added `findByName`, which seeks nodes of type `Person`and finds the one that matches on `name`. You also have `findByTeammatesName`, which looks for a `Person` node, drills into each entry of the `teammates` field, and matches based on the teammate's `name`.
 
@@ -89,7 +89,7 @@ NOTE: In a production environment, you would probably connect to a standalone, r
 
 You autowire an instance of `PersonRepository` that you defined earlier. Spring Data Neo4j will dynamically create a concrete class that implements that interface and will plug in the needed query code to meet the interface's obligations.
 
-The `public statuc void main` uses Spring Boot's `SpringApplication.run()` to launch the application and invoke the `CommandLineRunner` that builds the relationships.
+The `public static void main` uses Spring Boot's `SpringApplication.run()` to launch the application and invoke the `CommandLineRunner` that builds the relationships.
 
 In this case, you create three local `Person` s, **Greg**, **Roy**, and **Craig**. Initially, they only exist in memory. It's also important to note that no one is a teammate of anyone (yet).
 
