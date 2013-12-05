@@ -10,7 +10,7 @@ apply plugin: 'eclipse'
 apply plugin: 'idea'
 
 jar {
-    baseName = 'gs-acessing-data-neo4j'
+    baseName = 'gs-accessing-data-neo4j'
     version =  '0.1.0'
 }
 
