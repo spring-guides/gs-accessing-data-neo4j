@@ -4,7 +4,7 @@ buildscript {
         mavenLocal()
     }
     dependencies {
-        classpath("org.springframework.boot:spring-boot-gradle-plugin:0.5.0.M6")
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:1.0.0.RC1")
     }
 }
 
@@ -25,9 +25,9 @@ repositories {
 }
 
 dependencies {
-    compile("org.springframework.boot:spring-boot-starter:0.5.0.M6")
-    compile("org.springframework:spring-context:4.0.0.RC1")
-    compile("org.springframework:spring-tx:4.0.0.RC1")
+    compile("org.springframework.boot:spring-boot-starter:1.0.0.RC1")
+    compile("org.springframework:spring-context:4.0.0.RELEASE")
+    compile("org.springframework:spring-tx:4.0.0.RELEASE")
     compile("org.springframework.data:spring-data-neo4j:2.3.2.RELEASE")
     compile("javax.validation:validation-api:1.0.0.GA")
     testCompile("junit:junit:4.11")
