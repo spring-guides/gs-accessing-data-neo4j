@@ -146,3 +146,4 @@ You can see from the output that initially no one is connected by any relationsh
 == Summary
 Congratulations! You just set up an embedded Neo4j server, stored some simple, related entities, and developed some quick queries.
 
+NOTE: If you're interesting in exposing Neo4j repositories with a hypermedia-based RESTful front end with little effort, you might want to read link:/guides/gs/accessing-neo4j-data-rest[Accessing Neo4j Data with REST].
