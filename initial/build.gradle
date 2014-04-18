@@ -29,7 +29,7 @@ dependencies {
     compile("org.springframework:spring-context")
     compile("org.springframework:spring-tx")
     compile("org.springframework.data:spring-data-neo4j:2.3.2.RELEASE")
-    compile("javax.validation:validation-api:1.0.0.GA")
+    compile("org.hibernate:hibernate-validator")
     testCompile("junit:junit")
 }
 
