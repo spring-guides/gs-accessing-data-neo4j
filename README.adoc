@@ -14,20 +14,20 @@ You'll use Neo4j's link:/understanding/NoSQL[NoSQL] graph-based data store to bu
 
 == What you'll need
 
-include::https://raw.github.com/spring-guides/getting-started-macros/master/prereq_editor_jdk_buildtools.adoc[]
+include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/master/prereq_editor_jdk_buildtools.adoc[]
 
-include::https://raw.github.com/spring-guides/getting-started-macros/master/how_to_complete_this_guide.adoc[]
+include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/master/how_to_complete_this_guide.adoc[]
 
 
 [[scratch]]
 == Set up the project
 
-include::https://raw.github.com/spring-guides/getting-started-macros/master/build_system_intro.adoc[]
+include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/master/build_system_intro.adoc[]
 
-include::https://raw.github.com/spring-guides/getting-started-macros/master/create_directory_structure_hello.adoc[]
+include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/master/create_directory_structure_hello.adoc[]
 
 
-include::https://raw.github.com/spring-guides/getting-started-macros/master/create_both_builds.adoc[]
+include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/master/create_both_builds.adoc[]
 `build.gradle`
 // AsciiDoc source formatting doesn't support groovy, so using java instead
 [source,java]
@@ -35,7 +35,7 @@ include::https://raw.github.com/spring-guides/getting-started-macros/master/crea
 include::initial/build.gradle[]
 ----
 
-include::https://raw.github.com/spring-guides/getting-started-macros/master/spring-boot-gradle-plugin.adoc[]
+include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/master/spring-boot-gradle-plugin.adoc[]
 
 [[initial]]
 == Define a simple entity
@@ -108,11 +108,11 @@ Why is there no code that fetches Craig and adds any relationships? Because you 
 Finally, check out that other query where you look backwards, answering the question "who works with whom?"
 
 
-include::https://raw.github.com/spring-guides/getting-started-macros/master/build_an_executable_jar_subhead.adoc[]
+include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/master/build_an_executable_jar_subhead.adoc[]
 
-include::https://raw.github.com/spring-guides/getting-started-macros/master/build_an_executable_jar_with_both.adoc[]
+include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/master/build_an_executable_jar_with_both.adoc[]
 
-include::https://raw.github.com/spring-guides/getting-started-macros/master/run_the_application_with_both.adoc[]
+include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/master/run_the_application_with_both.adoc[]
     
 You should see something like this (with other stuff like queries as well):
 ....
