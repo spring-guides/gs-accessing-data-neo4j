@@ -68,7 +68,7 @@
         <repository>
             <id>spring-releases</id>
             <name>Spring Releases</name>
-            <url>http://repo.spring.io/release</url>
+            <url>http://repo.spring.io/libs-release</url>
         </repository>
         <repository>
             <id>neo4j</id>
@@ -81,7 +81,7 @@
         <pluginRepository>
             <id>spring-releases</id>
             <name>Spring Releases</name>
-            <url>http://repo.spring.io/release</url>
+            <url>http://repo.spring.io/libs-release</url>
         </pluginRepository>
     </pluginRepositories>
 
