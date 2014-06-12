@@ -30,7 +30,7 @@ dependencies {
     compile("org.springframework.boot:spring-boot-starter")
     compile("org.springframework:spring-context")
     compile("org.springframework:spring-tx")
-    compile("org.springframework.data:spring-data-neo4j:2.3.2.RELEASE")
+    compile("org.springframework.data:spring-data-neo4j")
     compile("org.hibernate:hibernate-validator")
     testCompile("junit:junit")
 }
