@@ -59,7 +59,7 @@ To see how this works, create an interface that queries `Person` nodes.
 include::complete/src/main/java/hello/PersonRepository.java[]
 ----
     
-`PersonRepository` extends the `GraphRepository` class and plugs in the type it operates on: `Person`. Out-of-the-box, this interface comes with many operations, including standard CRUD (create-read-update-delete) operations.
+`PersonRepository` extends the `CrudRepository` interface and plugs in the type it operates on: `Person`. Out-of-the-box, this interface comes with many operations, including standard CRUD (create-read-update-delete) operations.
 
 But you can define other queries as needed by simply declaring their method signature. In this case, you added `findByName`, which seeks nodes of type `Person` and finds the one that matches on `name`. You also have `findByTeammatesName`, which looks for a `Person` node, drills into each entry of the `teammates` field, and matches based on the teammate's `name`.
 
