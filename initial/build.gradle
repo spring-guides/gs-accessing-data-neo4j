@@ -32,6 +32,7 @@ dependencies {
     compile("org.springframework:spring-tx")
     compile("org.springframework.data:spring-data-neo4j")
     compile("org.hibernate:hibernate-validator")
+    compile("javax.el:javax.el-api:2.2.4")
     testCompile("junit:junit")
 }
 
