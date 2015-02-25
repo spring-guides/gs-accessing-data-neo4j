@@ -20,6 +20,7 @@ jar {
 repositories {
     mavenCentral()
     maven { url "https://m2.neo4j.org" }
+    maven { url "https://repo.spring.io/libs-release" }
 }
 
 dependencies {
