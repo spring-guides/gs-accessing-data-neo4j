@@ -23,6 +23,9 @@ repositories {
     maven { url "https://repo.spring.io/libs-release" }
 }
 
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
 dependencies {
     compile("org.springframework.boot:spring-boot-starter")
     compile("org.springframework:spring-context")
