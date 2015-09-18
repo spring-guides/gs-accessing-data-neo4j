@@ -77,6 +77,8 @@ include::complete/src/main/java/hello/Application.java[]
 
 In the configuration, you need to add the `@EnableNeo4jRepositories` annotation as well as extend the `Neo4jConfiguration` class to conveniently spin up needed components.
 
+* By default, `@EnableNeo4jRepositories` will scan the current package for any interfaces that extend one of Spring Data's repository interfaces. Use it's `basePackageClasses=MyRepository.class` to safely tell Spring Data GemFire to scan a different root package by type if your project layout has multiple projects and its not finding your repositories.
+
 One piece that's missing is the graph database service bean. In this case, you are using the `EmbeddedGraphDatabase`, which creates and reuses a file-based data store at **accessingdataneo4j.db**.
 
 NOTE: In a production environment, you would probably connect to a standalone, running Neo4j server instead.
