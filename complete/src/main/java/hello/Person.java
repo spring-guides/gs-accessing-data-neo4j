@@ -29,13 +29,15 @@ public class Person {
     }
 
     public String toString() {
-        String results = name + "'s teammates include\n";
+        String results = name;
         if (teammates != null) {
+            results += "'s teammates include:\n";
             for (Person person : teammates) {
                 results += "\t- " + person.name + "\n";
             }
+        } else {
+            results += " has no teammates yet.\n";
         }
         return results;
     }
-
 }
