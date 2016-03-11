@@ -43,7 +43,7 @@ NOTE: In this guide, the typical getters and setters are omitted for brevity.
 
 The `Person` class is annotated `@NodeEntity`. When Neo4j stores it, it results in the creation of a new node. This class also has an `id` marked `@GraphId`. Neo4j uses `@GraphId` internally to track the data.
 
-The next important piece is the set of `teammates`. It is a simple `Set<Person>`, but marked up as `@RelatedTo`. This means that every member of this set is expected to also exist as a separate `Person` node. Note how the direction is set to `BOTH`. This means that when you generate a `TEAMMATE` relationship in one direction, it exists in the other direction as well. There is also a `@Fetch` annotation on this field as well. This causes the teammates to be eagerly retrieved. Otherwise you would have to use neo4jTemplate.fetch().
+The next important piece is the set of `teammates`. It is a simple `Set<Person>`, but marked up as `@RelatedTo`. This means that every member of this set is expected to also exist as a separate `Person` node. Note how the direction is set to `BOTH`. This means that when you query the `TEAMMATE` relationship, Spring Data Neo4j will ignore the direction of the relationship. There is also a `@Fetch` annotation on this field as well. This causes the teammates to be eagerly retrieved. Otherwise you would have to use neo4jTemplate.fetch().
 
 With the `worksWith()` method, you can easily link people together.
 
