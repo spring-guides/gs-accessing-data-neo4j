@@ -28,12 +28,8 @@ targetCompatibility = 1.8
 
 dependencies {
     compile("org.springframework.boot:spring-boot-starter")
-    compile("org.springframework:spring-context")
-    compile("org.springframework:spring-tx")
     compile("org.springframework.data:spring-data-neo4j")
     compile("org.hibernate:hibernate-validator")
-    compile("javax.el:javax.el-api:2.2.4")
-    testCompile("junit:junit")
 }
 
 task wrapper(type: Wrapper) {
