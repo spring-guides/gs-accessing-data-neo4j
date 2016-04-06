@@ -91,14 +91,6 @@ Create an Application class with all the components.
 include::complete/src/main/java/hello/Application.java[]
 ----
 
-In the configuration, you need to add the `@EnableNeo4jRepositories` annotation as well as extend the `Neo4jConfiguration` class to conveniently spin up needed components.
-
-* By default, `@EnableNeo4jRepositories` will scan the current package for any interfaces that extend one of Spring Data's repository interfaces. Use it's `basePackageClasses=MyRepository.class` to safely tell Spring Data GemFire to scan a different root package by type if your project layout has multiple projects and its not finding your repositories.
-
-One piece that's missing is the graph database service bean. In this case, you are using the `EmbeddedGraphDatabase`, which creates and reuses a file-based data store at **accessingdataneo4j.db**.
-
-NOTE: In a production environment, you would probably connect to a standalone, running Neo4j server instead.
-
 You autowire an instance of `PersonRepository` that you defined earlier. Spring Data Neo4j will dynamically create a concrete class that implements that interface and will plug in the needed query code to meet the interface's obligations.
 
 The `public static void main` uses Spring Boot's `SpringApplication.run()` to launch the application and invoke the `CommandLineRunner` that builds the relationships.
