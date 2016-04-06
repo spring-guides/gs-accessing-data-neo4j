@@ -64,6 +64,22 @@ include::complete/src/main/java/hello/PersonRepository.java[]
 
 But you can define other queries as needed by simply declaring their method signature. In this case, you added `findByName`, which seeks nodes of type `Person` and finds the one that matches on `name`. You also have `findByTeammatesName`, which looks for a `Person` node, drills into each entry of the `teammates` field, and matches based on the teammate's `name`.
 
+== Enable Neo4j Repositories
+
+To use Neo4j, you need to active it.
+
+`src/main/java/hello/ApplicationConfig.java`
+[source,java]
+----
+include::complete/src/main/java/hello/ApplicationConfig.java[]
+----
+
+* `@Configuration` flags this class as a source for more bean definitions.
+* `@EnableNeo4jRepositories` tells Spring to pull in all the bean definitions needed to activate Neo4j.
+* This class extends `Neo4jConfiguration`, and adapter from which we can specify key settings.
+* Speaking of settings, `setBasePackage` tells Neo4j to scan the `hello` package for repositories.
+* It also creates a `GraphDatabaseService` based on the embedded version of Neo4j (handy for testing!)
+
 Let's wire this up and see what it looks like!
 
 == Create an Application class
