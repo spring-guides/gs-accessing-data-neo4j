@@ -1,11 +1,9 @@
+
 package hello;
 
-import java.io.File;
 import java.util.Arrays;
 import java.util.List;
 
-import org.neo4j.graphdb.Transaction;
-import org.neo4j.io.fs.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -37,8 +35,7 @@ public class Application {
 
 			log.info("Before linking up with Neo4j...");
 
-			team.stream()
-				.forEach(person -> log.info("\t" + person.toString()));
+			team.stream().forEach(person -> log.info("\t" + person.toString()));
 
 			personRepository.save(greg);
 			personRepository.save(roy);
@@ -56,12 +53,9 @@ public class Application {
 
 			// We already know craig works with roy and greg
 
-
 			log.info("Lookup each person by name...");
-			team.stream()
-				.forEach(person ->
-					log.info("\t" + personRepository
-							.findByName(person.getName()).toString()));
+			team.stream().forEach(person -> log.info(
+					"\t" + personRepository.findByName(person.getName()).toString()));
 		};
 	}
 

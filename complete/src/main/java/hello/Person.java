@@ -1,3 +1,4 @@
+
 package hello;
 
 import java.util.Collections;
@@ -13,49 +14,48 @@ import org.neo4j.ogm.annotation.Relationship;
 @NodeEntity
 public class Person {
 
-    @GraphId
-    private Long id;
+	@GraphId private Long id;
 
-    private String name;
-
-	/**
-     * Neo4j requires a no-arg constructor much like JPA
-     */
-    private Person() {}
-
-    public Person(String name) { this.name = name; }
+	private String name;
 
 	/**
-     * Neo4j doesn't REALLY have bi-directional relationships.
-     * It just means when querying to ignore the direction of
-     * the relationship.
-     * https://dzone.com/articles/modelling-data-neo4j
-     */
-    @Relationship(type = "TEAMMATE", direction = Relationship.UNDIRECTED)
-    public Set<Person> teammates;
+	 * Neo4j requires a no-arg constructor much like JPA
+	 */
+	private Person() {
+	}
 
-    public void worksWith(Person person) {
-        if (teammates == null) {
-            teammates = new HashSet<>();
-        }
-        teammates.add(person);
-    }
+	public Person(String name) {
+		this.name = name;
+	}
 
-    public String toString() {
+	/**
+	 * Neo4j doesn't REALLY have bi-directional relationships. It just means when querying
+	 * to ignore the direction of the relationship.
+	 * https://dzone.com/articles/modelling-data-neo4j
+	 */
+	@Relationship(type = "TEAMMATE", direction = Relationship.UNDIRECTED)
+	public Set<Person> teammates;
 
-        return this.name + "'s teammates => " +
-            Optional.ofNullable(this.teammates)
-                .orElse(Collections.emptySet())
-                .stream()
-                    .map(person -> person.getName())
-                    .collect(Collectors.toList());
-    }
+	public void worksWith(Person person) {
+		if (teammates == null) {
+			teammates = new HashSet<>();
+		}
+		teammates.add(person);
+	}
 
-    public String getName() {
-        return name;
-    }
+	public String toString() {
 
-    public void setName(String name) {
-        this.name = name;
-    }
+		return this.name + "'s teammates => "
+				+ Optional.ofNullable(this.teammates).orElse(
+						Collections.emptySet()).stream().map(
+								person -> person.getName()).collect(Collectors.toList());
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
 }
