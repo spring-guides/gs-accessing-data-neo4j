@@ -6,11 +6,9 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import org.neo4j.graphdb.Direction;
-import org.springframework.data.neo4j.annotation.Fetch;
-import org.springframework.data.neo4j.annotation.GraphId;
-import org.springframework.data.neo4j.annotation.NodeEntity;
-import org.springframework.data.neo4j.annotation.RelatedTo;
+import org.neo4j.ogm.annotation.GraphId;
+import org.neo4j.ogm.annotation.NodeEntity;
+import org.neo4j.ogm.annotation.Relationship;
 
 @NodeEntity
 public class Person {
@@ -33,8 +31,8 @@ public class Person {
      * the relationship.
      * https://dzone.com/articles/modelling-data-neo4j
      */
-    @RelatedTo(type="TEAMMATE", direction=Direction.BOTH)
-    public @Fetch Set<Person> teammates;
+    @Relationship(type = "TEAMMATE", direction = Relationship.UNDIRECTED)
+    public Set<Person> teammates;
 
     public void worksWith(Person person) {
         if (teammates == null) {

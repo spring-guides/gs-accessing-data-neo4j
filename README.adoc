@@ -6,7 +6,8 @@ projects: [spring-data-neo4j]
 :icons: font
 :source-highlighter: prettify
 :project_id: gs-accessing-data-neo4j
-This guide walks you through the process of using Spring Data to build an application with Neo4j.
+This guide walks you through the process of using http://projects.spring.io/spring-data-neo4j/[Spring Data Neo4j] to build an application that stores data in and retrieves it from http://www.neo4j.com/[Neo4j], a graph-based database.
+
 
 == What you'll build
 
@@ -60,30 +61,14 @@ To see how this works, create an interface that queries `Person` nodes.
 include::complete/src/main/java/hello/PersonRepository.java[]
 ----
     
-`PersonRepository` extends the `CrudRepository` interface and plugs in the type it operates on: `Person`. Out-of-the-box, this interface comes with many operations, including standard CRUD (create-read-update-delete) operations.
+`PersonRepository` extends the `GraphRepository` interface and plugs in the type it operates on: `Person`. Out-of-the-box, this interface comes with many operations, including standard CRUD (create-read-update-delete) operations.
 
 But you can define other queries as needed by simply declaring their method signature. In this case, you added `findByName`, which seeks nodes of type `Person` and finds the one that matches on `name`. You also have `findByTeammatesName`, which looks for a `Person` node, drills into each entry of the `teammates` field, and matches based on the teammate's `name`.
-
-== Enable Neo4j Repositories
-
-To use Neo4j, you need to active it.
-
-`src/main/java/hello/ApplicationConfig.java`
-[source,java]
-----
-include::complete/src/main/java/hello/ApplicationConfig.java[]
-----
-
-* `@Configuration` flags this class as a source for more bean definitions.
-* `@EnableNeo4jRepositories` tells Spring to pull in all the bean definitions needed to activate Neo4j.
-* This class extends `Neo4jConfiguration`, and adapter from which we can specify key settings.
-* Speaking of settings, `setBasePackage` tells Neo4j to scan the `hello` package for repositories.
-* It also creates a `GraphDatabaseService` based on the embedded version of Neo4j (handy for testing!)
 
 Let's wire this up and see what it looks like!
 
 == Create an Application class
-Create an Application class with all the components.
+Here you create an Application class with all the components.
 
 `src/main/java/hello/Application.java`
 [source,java]
@@ -91,15 +76,25 @@ Create an Application class with all the components.
 include::complete/src/main/java/hello/Application.java[]
 ----
 
-You autowire an instance of `PersonRepository` that you defined earlier. Spring Data Neo4j will dynamically create a concrete class that implements that interface and will plug in the needed query code to meet the interface's obligations.
+include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/master/spring-boot-application.adoc[]
+
+Spring Boot will handle those repositories automatically as long as they are included
+in the same package (or a sub-package) of your `@SpringBootApplication` class. For more control over the
+registration process, you can use the `@EnableNeo4jRepositories` annotation.
+
+NOTE: By default, `@EnableNeo4jRepositories` will scan the current package for any interfaces that extend one of Spring Data's repository interfaces. Use it's `basePackageClasses=MyRepository.class` to safely tell Spring Data GemFire to scan a different root package by type if your project layout has multiple projects and its not finding your repositories.
+
+
+Logging output is displayed. The service should be up and running within a few seconds.
+
+
+You autowire an instance of `PersonRepository` that you defined earlier. Spring Data Neo4j will dynamically implement that interface and will plug in the needed query code to meet the interface's obligations.
 
 The `public static void main` uses Spring Boot's `SpringApplication.run()` to launch the application and invoke the `CommandLineRunner` that builds the relationships.
 
 In this case, you create three local `Person` s, **Greg**, **Roy**, and **Craig**. Initially, they only exist in memory. It's also important to note that no one is a teammate of anyone (yet).
 
-To store anything in Neo4j, you must start a transaction using the `graphDatabase`. In there, you will save each person. Then, you fetch each person, and link them together.
-
-At first, you find Greg and indicate that he works with Roy and Craig, then persist him again. Remember, the teammate relationship was marked as `BOTH`, that is, bidirectional. That means that Roy and Craig will have been updated as well.
+At first, you find Greg and indicate that he works with Roy and Craig, then persist him again. Remember, the teammate relationship was marked as `UNDIRECTED`, that is, bidirectional. That means that Roy and Craig will have been updated as well.
 
 That's why when you need to update Roy, it's critical that you fetch that record from Neo4j first. You need the latest status on Roy's teammates before adding **Craig** to the list.
 
@@ -108,36 +103,21 @@ Why is there no code that fetches Craig and adds any relationships? Because you 
 Finally, check out that other query where you look backwards, answering the question "who works with whom?"
 
 
-include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/master/build_an_executable_jar_subhead.adoc[]
-
+include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/master/build_an_executable_jar_mainhead.adoc[]
 include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/master/build_an_executable_jar_with_both.adoc[]
 
     
 You should see something like this (with other stuff like queries as well):
 ....
 Before linking up with Neo4j...
-Greg's teammates include
-
-Roy's teammates include
-
-Craig's teammates include
+	Greg's teammates => []
+	Roy's teammates => []
+	Craig's teammates => []
 
 Lookup each person by name...
-Greg's teammates include
-	- Craig
-	- Roy
-
-Roy's teammates include
-	- Craig
-	- Greg
-
-Craig's teammates include
-	- Roy
-	- Greg
-
-Looking up who works with Greg...
-Roy works with Greg.
-Craig works with Greg.
+	Greg's teammates => [Roy, Craig]
+	Roy's teammates => [Greg, Craig]
+	Craig's teammates => [Roy, Greg]
 ....
 
 You can see from the output that initially no one is connected by any relationship. Then after adding people in, they are tied together. Finally, you can see the handy query that looks up people based on teammate.
@@ -148,4 +128,3 @@ Congratulations! You just set up an embedded Neo4j server, stored some simple, r
 NOTE: If you're interesting in exposing Neo4j repositories with a hypermedia-based RESTful front end with little effort, you might want to read link:/guides/gs/accessing-neo4j-data-rest[Accessing Neo4j Data with REST].
 
 include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/master/footer.adoc[]
-
