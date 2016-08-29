@@ -33,6 +33,3 @@ dependencies {
     compile("org.hibernate:hibernate-validator")
 }
 
-task wrapper(type: Wrapper) {
-    gradleVersion = '2.3'
-}
