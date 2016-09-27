@@ -38,7 +38,7 @@ Neo4j captures entities and their relationships, with both aspects being of equa
 include::complete/src/main/java/hello/Person.java[]
 ----
 
-Here you have a `Person` class that has only one attribute, the `name`.
+Here you have a `Person` class that has only one attribute, the `name`. You have two constructors, an empty one as well as one for the `name`. To use Neo4j later on, you need the empty constructor. The name-based one is for convenience.
 
 NOTE: In this guide, the typical getters and setters are omitted for brevity.
 

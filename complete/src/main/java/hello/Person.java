@@ -18,6 +18,12 @@ public class Person {
 
 	private String name;
 
+	/**
+	 * Neo4j requires a no-arg constructor much like JPA
+	 */
+	private Person() {
+	}
+
 	public Person(String name) {
 		this.name = name;
 	}
