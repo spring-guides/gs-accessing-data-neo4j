@@ -22,11 +22,6 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-neo4j</artifactId>
 		</dependency>
-		<dependency>
-			<groupId>org.neo4j</groupId>
-			<artifactId>neo4j-ogm-embedded-driver</artifactId>
-			<version>2.0.4</version>
-		</dependency>
 	</dependencies>
 
 	<build>
@@ -43,11 +38,6 @@
 			<id>spring-releases</id>
 			<name>Spring Releases</name>
 			<url>https://repo.spring.io/libs-release</url>
-		</repository>
-		<repository>
-			<id>neo4j</id>
-			<name>Neo4j</name>
-			<url>http://m2.neo4j.org/</url>
 		</repository>
 	</repositories>
 

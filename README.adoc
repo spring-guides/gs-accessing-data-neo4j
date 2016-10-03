@@ -27,6 +27,43 @@ include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/
 
 include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/master/hide-show-sts.adoc[]
 
+== Standing up a Neo4j server
+
+Before you can build a this application, you need to set up a Neo4j server.
+
+Neo4j has an open source server you can install for free:
+
+On a Mac, just type:
+
+----
+$ brew install neo4j
+----
+
+For other options, visit https://neo4j.com/download/community-edition/
+
+Once you installed, launch it with it's default settings:
+
+----
+$ neo4j start
+----
+
+You should see a message like this:
+
+....
+Starting Neo4j.
+Started neo4j (pid 96416). By default, it is available at http://localhost:7474/
+There may be a short delay until the server is ready.
+See /usr/local/Cellar/neo4j/3.0.6/libexec/logs/neo4j.log for current status.
+....
+
+By default, Neo4j has a username/password of neo4j/neo4j. However, it requires that the new account password be changed. To do so, execute the following command:
+
+----
+$ curl -v -u neo4j:neo4j -X POST localhost:7474/user/neo4j/password -H 'Content-type:application/json' -d '{"password":"secret"}'
+----
+
+This changes the password from *neo4j* to *secret* (something to NOT DO in production!) With that completed, you should be ready to run this guide.
+
 
 [[initial]]
 == Define a simple entity
@@ -65,7 +102,20 @@ include::complete/src/main/java/hello/PersonRepository.java[]
 
 But you can define other queries as needed by simply declaring their method signature. In this case, you added `findByName`, which seeks nodes of type `Person` and finds the one that matches on `name`. You also have `findByTeammatesName`, which looks for a `Person` node, drills into each entry of the `teammates` field, and matches based on the teammate's `name`.
 
-Let's wire this up and see what it looks like!
+== Permissions to access Neo4j
+
+Neo4j Community Edition requires credentials to access it. This can be configured with a couple properties.
+
+[source]
+----
+include complete/src/main/resources/application.properties[]
+----
+
+This includes the default username `neo4j` and the newly set password `secret` we picked earlier.
+
+WARNING: Do NOT store real credentials in your source repository. Instead, configure them in your runtime using http://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#boot-features-external-config[Spring Boot's property overrides].
+
+With this in place, let's wire this up and see what it looks like!
 
 == Create an Application class
 Here you create an Application class with all the components.
@@ -84,9 +134,7 @@ registration process, you can use the `@EnableNeo4jRepositories` annotation.
 
 NOTE: By default, `@EnableNeo4jRepositories` will scan the current package for any interfaces that extend one of Spring Data's repository interfaces. Use it's `basePackageClasses=MyRepository.class` to safely tell Spring Data Neo4j to scan a different root package by type if your project layout has multiple projects and its not finding your repositories.
 
-
 Logging output is displayed. The service should be up and running within a few seconds.
-
 
 You autowire an instance of `PersonRepository` that you defined earlier. Spring Data Neo4j will dynamically implement that interface and will plug in the needed query code to meet the interface's obligations.
 

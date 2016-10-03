@@ -27,6 +27,8 @@ public class Application {
 	CommandLineRunner demo(PersonRepository personRepository) {
 		return args -> {
 
+			personRepository.deleteAll();
+
 			Person greg = new Person("Greg");
 			Person roy = new Person("Roy");
 			Person craig = new Person("Craig");

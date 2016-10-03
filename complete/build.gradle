@@ -19,7 +19,6 @@ jar {
 
 repositories {
     mavenCentral()
-    maven { url "https://m2.neo4j.org" }
     maven { url "https://repo.spring.io/libs-release" }
 }
 
@@ -28,6 +27,5 @@ targetCompatibility = 1.8
 
 dependencies {
     compile("org.springframework.boot:spring-boot-starter-data-neo4j")
-    compile("org.neo4j:neo4j-ogm-embedded-driver:2.0.4")
 }
 
