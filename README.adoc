@@ -108,7 +108,7 @@ Neo4j Community Edition requires credentials to access it. This can be configure
 
 [source]
 ----
-include complete/src/main/resources/application.properties[]
+include::complete/src/main/resources/application.properties[]
 ----
 
 This includes the default username `neo4j` and the newly set password `secret` we picked earlier.
