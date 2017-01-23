@@ -59,7 +59,7 @@ See /usr/local/Cellar/neo4j/3.0.6/libexec/logs/neo4j.log for current status.
 By default, Neo4j has a username/password of neo4j/neo4j. However, it requires that the new account password be changed. To do so, execute the following command:
 
 ----
-$ curl -v -u neo4j:neo4j -X POST localhost:7474/user/neo4j/password -H 'Content-type:application/json' -d '{"password":"secret"}'
+$ curl -v -u neo4j:neo4j -X POST localhost:7474/user/neo4j/password -H "Content-type:application/json" -d "{\"password\":\"secret\"}"
 ----
 
 This changes the password from *neo4j* to *secret* (something to NOT DO in production!) With that completed, you should be ready to run this guide.
