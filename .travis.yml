@@ -1,7 +1,12 @@
-sudo: false
+sudo: true
+env:
+  - NEO4J_VERSION="3.1.1"
 language: java
-services:
-  - neo4j
+before_install:
+  - wget dist.neo4j.org/neo4j-community-${NEO4J_VERSION}-unix.tar.gz
+  - tar -xzf neo4j-community-${NEO4J_VERSION}-unix.tar.gz
+  - neo4j-community-${NEO4J_VERSION}/bin/neo4j start &
+  - ./wait-for-neo4j.bash
 before_script:
   - curl -v -u neo4j:neo4j -X POST localhost:7474/user/neo4j/password -H "Content-type:application/json" -d "{\"password\":\"secret\"}"
 jdk:
