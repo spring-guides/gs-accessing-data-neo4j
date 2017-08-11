@@ -175,4 +175,13 @@ Congratulations! You just set up an embedded Neo4j server, stored some simple, r
 
 NOTE: If you're interesting in exposing Neo4j repositories with a hypermedia-based RESTful front end with little effort, you might want to read link:/guides/gs/accessing-neo4j-data-rest[Accessing Neo4j Data with REST].
 
+== See Also
+
+The following guides may also be helpful:
+
+* https://spring.io/guides/gs/accessing-data-mysql/[Accessing Data with MySQL]
+* https://spring.io/guides/gs/accessing-data-jpa/[Accessing Data with JPA]
+* https://spring.io/guides/gs/accessing-data-mongodb/[Accessing Data with MongoDB]
+* https://spring.io/guides/gs/accessing-data-gemfire/[Accessing data with Gemfire]
+
 include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/master/footer.adoc[]
