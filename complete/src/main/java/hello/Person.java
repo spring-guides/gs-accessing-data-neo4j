@@ -7,14 +7,15 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import org.neo4j.ogm.annotation.GraphId;
+import org.neo4j.ogm.annotation.GeneratedValue;
+import org.neo4j.ogm.annotation.Id;
 import org.neo4j.ogm.annotation.NodeEntity;
 import org.neo4j.ogm.annotation.Relationship;
 
 @NodeEntity
 public class Person {
 
-	@GraphId private Long id;
+	@Id @GeneratedValue private Long id;
 
 	private String name;
 
@@ -44,9 +45,10 @@ public class Person {
 	public String toString() {
 
 		return this.name + "'s teammates => "
-				+ Optional.ofNullable(this.teammates).orElse(
-						Collections.emptySet()).stream().map(
-								person -> person.getName()).collect(Collectors.toList());
+			+ Optional.ofNullable(this.teammates).orElse(
+					Collections.emptySet()).stream()
+						.map(Person::getName)
+						.collect(Collectors.toList());
 	}
 
 	public String getName() {
