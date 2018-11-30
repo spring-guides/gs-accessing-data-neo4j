@@ -20,7 +20,6 @@ bootJar {
 
 repositories {
     mavenCentral()
-    maven { url "https://repo.spring.io/libs-release" }
 }
 
 sourceCompatibility = 1.8
