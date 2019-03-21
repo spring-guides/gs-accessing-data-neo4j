@@ -2,7 +2,7 @@
 :icons: font
 :source-highlighter: prettify
 :project_id: gs-accessing-data-neo4j
-This guide walks you through the process of using http://projects.spring.io/spring-data-neo4j/[Spring Data Neo4j] to build an application that stores data in and retrieves it from http://www.neo4j.com/[Neo4j], a graph-based database.
+This guide walks you through the process of using https://projects.spring.io/spring-data-neo4j/[Spring Data Neo4j] to build an application that stores data in and retrieves it from https://www.neo4j.com/[Neo4j], a graph-based database.
 
 
 == What you'll build
@@ -109,7 +109,7 @@ include::complete/src/main/resources/application.properties[]
 
 This includes the default username `neo4j` and the newly set password `secret` we picked earlier.
 
-WARNING: Do NOT store real credentials in your source repository. Instead, configure them in your runtime using http://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#boot-features-external-config[Spring Boot's property overrides].
+WARNING: Do NOT store real credentials in your source repository. Instead, configure them in your runtime using https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#boot-features-external-config[Spring Boot's property overrides].
 
 With this in place, let's wire this up and see what it looks like!
 
