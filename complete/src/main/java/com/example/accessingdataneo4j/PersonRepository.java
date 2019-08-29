@@ -1,4 +1,4 @@
-package hello;
+package com.example.accessingdataneo4j;
 
 import org.springframework.data.repository.CrudRepository;
 

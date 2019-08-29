@@ -1,5 +1,5 @@
 
-package hello;
+package com.example.accessingdataneo4j;
 
 import java.util.Arrays;
 import java.util.List;
@@ -15,12 +15,12 @@ import org.springframework.data.neo4j.repository.config.EnableNeo4jRepositories;
 
 @SpringBootApplication
 @EnableNeo4jRepositories
-public class Application {
+public class AccessingDataNeo4jApplication {
 
-	private final static Logger log = LoggerFactory.getLogger(Application.class);
+	private final static Logger log = LoggerFactory.getLogger(AccessingDataNeo4jApplication.class);
 
 	public static void main(String[] args) throws Exception {
-		SpringApplication.run(Application.class, args);
+		SpringApplication.run(AccessingDataNeo4jApplication.class, args);
 	}
 
 	@Bean
