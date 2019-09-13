@@ -1,5 +1,5 @@
 
-package hello;
+package com.example.accessingdataneo4j;
 
 import java.util.Collections;
 import java.util.HashSet;
