@@ -114,7 +114,7 @@ Spring Data Neo4j, you can capture all that with some simple annotations, as the
 listing (in `src/main/java/com/example/accessingdataneo4j/Person.java`) shows:
 
 ====
-[source,java]
+[source,java,tabsize=2]
 ----
 include::complete/src/main/java/com/example/accessingdataneo4j/Person.java[]
 ----
@@ -149,7 +149,7 @@ listing (in `src/main/java/com/example/accessingdataneo4j/PersonRepository.java`
 such a query:
 
 ====
-[source,java]
+[source,java,tabsize=2]
 ----
 include::complete/src/main/java/hello/PersonRepository.java[]
 ----
@@ -193,7 +193,7 @@ the class that Initializr created for this example (in
 `src/main/java/com/example/accessingdatamysql/AccessingDataMysqlApplication.java`):
 
 ====
-[source,java]
+[source,java,tabsize=2]
 ----
 include::initial/src/main/java/com/example/accessingdataneo4j/AccessingDataNeo4jApplication.java[]
 ----
