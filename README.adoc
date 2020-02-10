@@ -153,11 +153,11 @@ such a query:
 ====
 [source,java,tabsize=2]
 ----
-include::complete/src/main/java/hello/PersonRepository.java[]
+include::complete/src/main/java/com/example/accessingdataneo4j/PersonRepository.java[]
 ----
 ====
 
-`PersonRepository` extends the `GraphRepository` interface and plugs in the type on which
+`PersonRepository` extends the `CrudRepository` interface and plugs in the type on which
 it operates: `Person`. This interface comes with many operations, including standard CRUD
 (create, read, update, and delete) operations.
 
@@ -192,7 +192,7 @@ With this in place, you can wire this up and see what it looks like!
 
 Spring Initializr creates a simple class for the application. The following listing shows
 the class that Initializr created for this example (in
-`src/main/java/com/example/accessingdatamysql/AccessingDataMysqlApplication.java`):
+`src/main/java/com/example/accessingdataneo4j/AccessingDataNeo4jApplication.java`):
 
 ====
 [source,java,tabsize=2]
@@ -240,6 +240,16 @@ member and print their information to the console.
 
 Finally, check out that other query where you look backwards, answering the question of
 "Who works with whom?"
+
+The following listing shows the finished `AccessingDataNeo4jApplication` class (at
+`src/main/java/com/example/accessingdataneo4j/AccessingDataNeo4jApplication.java`):
+
+====
+[source,java]
+----
+include::complete/src/main/java/com/example/accessingdataneo4j/AccessingDataNeo4jApplication.java[]
+----
+====
 
 include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/master/build_an_executable_jar_mainhead.adoc[]
 include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/master/build_an_executable_jar_with_both.adoc[]
