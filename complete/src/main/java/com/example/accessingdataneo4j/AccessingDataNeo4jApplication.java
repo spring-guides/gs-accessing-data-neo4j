@@ -21,6 +21,7 @@ public class AccessingDataNeo4jApplication {
 
 	public static void main(String[] args) throws Exception {
 		SpringApplication.run(AccessingDataNeo4jApplication.class, args);
+		System.exit(0);
 	}
 
 	@Bean
@@ -58,6 +59,10 @@ public class AccessingDataNeo4jApplication {
 			log.info("Lookup each person by name...");
 			team.stream().forEach(person -> log.info(
 					"\t" + personRepository.findByName(person.getName()).toString()));
+
+			List<Person> teammates = personRepository.findByTeammatesName(greg.getName());
+			log.info("The following have Greg as a teammate...");
+			teammates.stream().forEach(person -> log.info("\t" + person.getName()));
 		};
 	}
 
