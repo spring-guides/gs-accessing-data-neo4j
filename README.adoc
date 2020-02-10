@@ -157,7 +157,7 @@ include::complete/src/main/java/com/example/accessingdataneo4j/PersonRepository.
 ----
 ====
 
-`PersonRepository` extends the `CrudRepository` interface and plugs in the type on which
+`PersonRepository` extends the `Neo4jRepository` interface and plugs in the type on which
 it operates: `Person`. This interface comes with many operations, including standard CRUD
 (create, read, update, and delete) operations.
 
