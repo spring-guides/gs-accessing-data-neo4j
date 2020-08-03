@@ -25,18 +25,9 @@ include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/
 
 For all Spring applications, you should start with the https://start.spring.io[Spring
 Initializr]. The Initializr offers a fast way to pull in all the dependencies you need for
-an application and does a lot of the set up for you. This example only needs the Spring Data Neo4j starter. 
-The following image shows the
-Initializr set up for this sample project:
-
-image::images/initializr.png[]
+an application and does a lot of the set up for you. This example only needs the Spring Data Neo4j starter.
 
 You can follow this https://start.spring.io/#!type=maven-project&language=java&platformVersion=2.1.9.RELEASE&packaging=jar&jvmVersion=1.8&groupId=com.example&artifactId=accessing-data-neo4j&name=accessing-data-neo4j&description=Demo%20project%20for%20Spring%20Boot&packageName=com.example.accessing-data-neo4j&dependencies=data-neo4j[link] to create the project skeleton.
-
-NOTE: The preceding image shows the Initializr with Maven chosen as the build tool. You
-can also use Gradle. It also shows values of `com.example` and `accessing-data-neo4j` as
-the Group and Artifact, respectively. You will use those values throughout the rest of
-this sample.
 
 The following listing shows the `pom.xml` file created when you choose Maven:
 
