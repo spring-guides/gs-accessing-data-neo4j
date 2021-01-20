@@ -7,12 +7,13 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import org.neo4j.ogm.annotation.GeneratedValue;
-import org.neo4j.ogm.annotation.Id;
-import org.neo4j.ogm.annotation.NodeEntity;
-import org.neo4j.ogm.annotation.Relationship;
+import org.springframework.data.neo4j.core.schema.Id;
+import org.springframework.data.neo4j.core.schema.Node;
+import org.springframework.data.neo4j.core.schema.Property;
+import org.springframework.data.neo4j.core.schema.Relationship;
+import org.springframework.data.neo4j.core.schema.GeneratedValue;
 
-@NodeEntity
+@Node
 public class Person {
 
 	@Id @GeneratedValue private Long id;
@@ -32,7 +33,7 @@ public class Person {
 	 * to ignore the direction of the relationship.
 	 * https://dzone.com/articles/modelling-data-neo4j
 	 */
-	@Relationship(type = "TEAMMATE", direction = Relationship.UNDIRECTED)
+	@Relationship(type = "TEAMMATE")
 	public Set<Person> teammates;
 
 	public void worksWith(Person person) {

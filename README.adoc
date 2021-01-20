@@ -29,6 +29,7 @@ an application and does a lot of the set up for you. This example only needs the
 
 You can follow this https://start.spring.io/#!type=maven-project&language=java&platformVersion=2.1.9.RELEASE&packaging=jar&jvmVersion=1.8&groupId=com.example&artifactId=accessing-data-neo4j&name=accessing-data-neo4j&description=Demo%20project%20for%20Spring%20Boot&packageName=com.example.accessing-data-neo4j&dependencies=data-neo4j[link] to create the project skeleton.
 
+You can get a Maven build file with the necessary dependencies directly from the https://start.spring.io/#!type=maven-project&language=java&platformVersion=2.4.2.RELEASE&packaging=jar&jvmVersion=11&groupId=com.example&artifactId=accessing-data-neo4j&name=accessing-data-neo4j&description=Demo%20project%20for%20Spring%20Boot&packageName=com.example.accessing-data-neo4j&dependencies=data-neo4j[Spring Initializr].
 The following listing shows the `pom.xml` file created when you choose Maven:
 
 ====
@@ -38,6 +39,7 @@ include::complete/pom.xml[]
 ----
 ====
 
+You can get a Gradle build file with the necessary dependencies directly from the https://start.spring.io/#!type=gradle-project&language=java&platformVersion=2.4.2.RELEASE&packaging=jar&jvmVersion=11&groupId=com.example&artifactId=accessing-data-neo4j&name=accessing-data-neo4j&description=Demo%20project%20for%20Spring%20Boot&packageName=com.example.accessing-data-neo4j&dependencies=data-neo4j[Spring Initializr].
 The following listing shows the `build.gradle` file created when you choose Gradle:
 
 ====
