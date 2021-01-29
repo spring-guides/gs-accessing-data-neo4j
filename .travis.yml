@@ -10,7 +10,7 @@ before_install:
 before_script:
   - curl -v -u neo4j:neo4j -X POST localhost:7474/user/neo4j/password -H "Content-type:application/json" -d "{\"password\":\"secret\"}"
 jdk:
-- openjdk11
+- openjdk8
 script:
 - test/run.sh
 notifications:
