@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.example</groupId>
-	<artifactId>accessing-data-neo4j-initial</artifactId>
+	<artifactId>accessing-data-neo4j-complete</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>accessing-data-neo4j-initial</name>
+	<name>accessing-data-neo4j-complete</name>
 	<description>Demo project for Spring Boot</description>
 	<properties>
 		<java.version>1.8</java.version>
