@@ -15,7 +15,7 @@ build an embedded Neo4j server, store entities and relationships, and develop qu
 
 == What You Need
 
-:java_version: 1.8
+:java_version: 17
 include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/main/prereq_editor_jdk_buildtools.adoc[]
 
 include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/main/how_to_complete_this_guide.adoc[]
@@ -36,15 +36,15 @@ This service pulls in all the dependencies you need for an application and does 
 
 NOTE: If your IDE has the Spring Initializr integration, you can complete this process from your IDE.
 
-NOTE: You can also fork the project from Github and open it in your IDE or other editor.
+NOTE: You can also fork the project from GitHub and open it in your IDE or other editor.
 
 == Standing up a Neo4j Server
 
 Before you can build this application, you need to set up a Neo4j server.
 
-Neo4j has an open source server you can install for free.
+Neo4j has an open source server you can install for free, or you can run it with Docker.
 
-On a Mac that has Homebrew installed, run the following command:
+To install the server on a Mac that has Homebrew installed, run the following command:
 
 ====
 [src,bash]
@@ -87,6 +87,21 @@ curl -v -u neo4j:neo4j POST localhost:7474/user/neo4j/password -H "Content-type:
 
 This changes the password from `neo4j` to `secret` -- something to NOT do in production!
 With that step completed, you should be ready to run the rest of this guide.
+
+Alternatively, to run with the https://hub.docker.com/_/neo4j[Neo4j Docker image].
+You can change the password with the `NEO4J_AUTH` environment variable.
+
+====
+[src,bash]
+----
+docker run \
+  --publish=7474:7474 --publish=7687:7687 \
+  --volume=$HOME/neo4j/data:/data \
+  --env NEO4J_AUTH=neo4j/password
+  neo4j
+----
+====
+
 
 [[initial]]
 == Define a Simple Entity
