@@ -23,7 +23,7 @@ include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/
 [[scratch]]
 == Starting with Spring Initializr
 
-You can use this https://start.spring.io/#!type=maven-project&language=java&platformVersion=2.5.5&packaging=jar&jvmVersion=11&groupId=com.example&artifactId=accessing-data-neo4j&name=accessing-data-neo4j&description=Demo%20project%20for%20Spring%20Boot&packageName=com.example.accessing-data-neo4j&dependencies=data-neo4j[pre-initialized project] and click Generate to download a ZIP file. This project is configured to fit the examples in this tutorial.
+You can use this https://start.spring.io/#!type=maven-project&language=java&platformVersion=3.0.1&packaging=jar&jvmVersion=11&groupId=com.example&artifactId=accessing-data-neo4j&name=accessing-data-neo4j&description=Demo%20project%20for%20Spring%20Boot&packageName=com.example.accessing-data-neo4j&dependencies=data-neo4j[pre-initialized project] and click Generate to download a ZIP file. This project is configured to fit the examples in this tutorial.
 
 To manually initialize the project:
 
@@ -37,6 +37,16 @@ This service pulls in all the dependencies you need for an application and does 
 NOTE: If your IDE has the Spring Initializr integration, you can complete this process from your IDE.
 
 NOTE: You can also fork the project from Github and open it in your IDE or other editor.
+
+If you are fun of command line tools like curl you can use this command:
+====
+[src,bash]
+----
+$ curl https://start.spring.io/starter.zip -d dependencies=data-neo4j -d bootVersion=3.0.1 -o accessing-data-neo4j.zip
+----
+====
+
+This will generate a Gradle project, but you can add more options to command line to specify more settings
 
 == Standing up a Neo4j Server
 
