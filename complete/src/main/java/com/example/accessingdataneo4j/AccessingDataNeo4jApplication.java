@@ -45,23 +45,23 @@ public class AccessingDataNeo4jApplication {
 			personRepository.save(craig);
 
 			greg = personRepository.findByName(greg.getName());
-			greg.mentors(roy);
-			greg.mentors(craig);
+			greg.referred(roy);
+			greg.referred(craig);
 			personRepository.save(greg);
 
 			roy = personRepository.findByName(roy.getName());
-			roy.mentors(craig);
+			roy.referred(craig);
 			personRepository.save(roy);
 
-			// Craig has no mentees yet
+			// Craig has no referrals yet
 
 			log.info("Lookup each person by name...");
 			team.stream().forEach(person -> log.info(
 					"\t" + personRepository.findByName(person.getName()).toString()));
 
-			List<Person> mentors = personRepository.findByMenteesName(craig.getName());
-			log.info("The following mentor Craig...");
-			mentors.stream().forEach(person -> log.info("\t" + person.getName()));
+			List<Person> referrers = personRepository.findByReferralsName(craig.getName());
+			log.info("The following referred Craig...");
+			referrers.stream().forEach(person -> log.info("\t" + person.getName()));
 		};
 	}
 

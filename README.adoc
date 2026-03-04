@@ -102,7 +102,7 @@ docker run \
 
 Neo4j captures entities and their relationships, with both aspects being of equal
 importance. Imagine you are modeling a system where you store a record for each person.
-However, you also want to track who a person mentors (`mentees` in this example). With
+However, you also want to track who a person has referred (`referrals` in this example). With
 Spring Data Neo4j, you can capture all that with some simple annotations, as the following
 listing (in `src/main/java/com/example/accessingdataneo4j/Person.java`) shows:
 
@@ -119,15 +119,15 @@ The `Person` class is annotated with `@Node`. When Neo4j stores it, a new node i
 created. This class also has an `id` marked `@Id` and `@GeneratedValue`. Neo4j uses this
 field internally to track the data.
 
-The next important piece is the set of `mentees`. It is a simple `Set<Person>` but is
+The next important piece is the set of `referrals`. It is a simple `Set<Person>` but is
 marked as `@Relationship`. This means that every member of this set is expected to also
 exist as a separate `Person` node. The default direction is `OUTGOING`, meaning the
-`MENTORS` relationship points from this person to each mentee in the set.
+`REFERRED` relationship points from this person to each person they have referred.
 
-With the `mentors()` method, you can easily establish mentoring relationships.
+With the `referred()` method, you can easily record who referred whom.
 
 Finally, you have a convenient `toString()` method to print out the person's name and
-who they mentor.
+who they have referred.
 
 == Create Simple Queries
 
@@ -153,9 +153,8 @@ it operates: `Person`. This interface comes with many operations, including stan
 
 But you can define other queries by declaring their method signatures. In this case, you
 added `findByName`, which seeks nodes of type `Person` and finds the one that matches on
-`name`. You also have `findByMenteesName`, which traverses the `MENTORS` relationship in reverse:
-given a mentee's name, it returns all `Person` nodes that have that person in their
-`mentees` set.
+`name`. You also have `findByReferralsName`, which traverses the `REFERRED` relationship
+in reverse: given a person's name, it returns all `Person` nodes that have referred them.
 
 == Permissions to Access Neo4j
 
@@ -214,21 +213,21 @@ The `main` method uses Spring Boot's `SpringApplication.run()` to launch the
 application and invoke the `CommandLineRunner` that builds the relationships.
 
 In this case, you create three local `Person` instances: Greg, Roy, and Craig.
-Initially, they only exist in memory. Note that no one mentors anyone (yet).
+Initially, they only exist in memory. Note that no one has referred anyone (yet).
 
-At first, you find Greg, indicate that he mentors Roy and Craig, and then persist him.
-Because the relationship direction is `OUTGOING`, only Greg's outgoing `MENTORS`
+At first, you find Greg, indicate that he referred Roy and Craig, and then persist him.
+Because the relationship direction is `OUTGOING`, only Greg's outgoing `REFERRED`
 relationships are saved at this point.
 
 Next, you fetch Roy fresh from Neo4j (to ensure you have the latest state of that node)
-and establish that he mentors Craig, then persist Roy.
+and record that he referred Craig, then persist Roy.
 
-Craig has no mentees yet in this example, so no additional code is needed for Craig. You
-can see the results as you iterate over each person and print their information to the
-console.
+Craig has no referrals yet in this example, so no additional code is needed for Craig.
+You can see the results as you iterate over each person and print their information to
+the console.
 
 Finally, check out that other query where you look backwards, answering the question of
-"Who mentors Craig?"
+"Who referred Craig?"
 
 The following listing shows the finished `AccessingDataNeo4jApplication` class (at
 `src/main/java/com/example/accessingdataneo4j/AccessingDataNeo4jApplication.java`):
@@ -249,24 +248,24 @@ queries, as well):
 ====
 ----
 Before linking up with Neo4j...
-	Greg mentors => []
-	Roy mentors => []
-	Craig mentors => []
+	Greg referred => []
+	Roy referred => []
+	Craig referred => []
 
 Lookup each person by name...
-	Greg mentors => [Roy, Craig]
-	Roy mentors => [Craig]
-	Craig mentors => []
+	Greg referred => [Roy, Craig]
+	Roy referred => [Craig]
+	Craig referred => []
 
-The following mentor Craig...
+The following referred Craig...
 	Greg
 	Roy
 ----
 ====
 
-You can see from the output that (initially) no one mentors anyone. Then, after you
-establish the relationships, you can see who mentors whom. Finally, you can see the handy
-reverse lookup that finds everyone who mentors a given person.
+You can see from the output that (initially) no one has referred anyone. Then, after you
+establish the relationships, you can see who referred whom. Finally, you can see the handy
+reverse lookup that finds everyone who referred a given person.
 
 == Summary
 

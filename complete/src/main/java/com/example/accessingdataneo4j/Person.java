@@ -29,25 +29,20 @@ public class Person {
 		this.name = name;
 	}
 
-	/**
-	 * Neo4j doesn't REALLY have bi-directional relationships. It just means when querying
-	 * to ignore the direction of the relationship.
-	 * https://dzone.com/articles/modelling-data-neo4j
-	 */
-	@Relationship(type = "MENTORS")
-	public Set<Person> mentees;
+	@Relationship(type = "REFERRED")
+	public Set<Person> referrals;
 
-	public void mentors(Person person) {
-		if (mentees == null) {
-			mentees = new HashSet<>();
+	public void referred(Person person) {
+		if (referrals == null) {
+			referrals = new HashSet<>();
 		}
-		mentees.add(person);
+		referrals.add(person);
 	}
 
 	public String toString() {
 
-		return this.name + " mentors => "
-			+ Optional.ofNullable(this.mentees).orElse(
+		return this.name + " referred => "
+			+ Optional.ofNullable(this.referrals).orElse(
 					Collections.emptySet()).stream()
 						.map(Person::getName)
 						.collect(Collectors.toList());
