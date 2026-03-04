@@ -174,7 +174,7 @@ This includes the default username (`neo4j`) and the newly set password we picke
 
 WARNING: Do NOT store real credentials in your source repository. Instead, configure them
 in your runtime using
-https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#boot-features-external-config[Spring Boot's property overrides].
+https://docs.spring.io/spring-boot/reference/features/external-config.html[Spring Boot's property overrides].
 
 With this in place, you can wire this up and see what it looks like!
 
