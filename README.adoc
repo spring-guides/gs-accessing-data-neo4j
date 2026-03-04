@@ -46,7 +46,7 @@ Neo4j has an open source server you can install for free, or you can run it with
 To install the server on a Mac that has Homebrew installed, run the following command:
 
 ====
-[src,bash]
+[source,bash]
 ----
 $ brew install neo4j
 ----
@@ -56,7 +56,7 @@ For other options, visit https://neo4j.com/download/community-edition/.
 Once installed, launch it with its default settings by running the following command:
 
 ====
-[src,bash]
+[source,bash]
 ----
 $ neo4j start
 ----
@@ -65,7 +65,7 @@ $ neo4j start
 You should see output similar to the following:
 
 ====
-[src,bash]
+[source,bash]
 ----
 Starting Neo4j.
 Started neo4j (pid 96416). By default, it is available at http://localhost:7474/
@@ -78,7 +78,7 @@ By default, Neo4j has a username and password of `neo4j` and `neo4j`. However, i
 that the new account password be changed. To do so, run the following command:
 
 ====
-[src,bash]
+[source,bash]
 ----
 curl -v -u neo4j:neo4j POST localhost:7474/user/neo4j/password -H "Content-type:application/json" -d "{\"password\":\"secret\"}"
 ----
@@ -91,7 +91,7 @@ Alternatively, to run with the https://hub.docker.com/_/neo4j[Neo4j Docker image
 You can change the password with the `NEO4J_AUTH` environment variable.
 
 ====
-[src,bash]
+[source,bash]
 ----
 docker run \
   --publish=7474:7474 --publish=7687:7687 \
@@ -168,7 +168,7 @@ credential by setting a couple of properties (in
 `src/main/resources/application.properties`), as the following listing shows:
 
 ====
-[src,text]
+[source,text]
 ----
 include::complete/src/main/resources/application.properties[]
 ----
