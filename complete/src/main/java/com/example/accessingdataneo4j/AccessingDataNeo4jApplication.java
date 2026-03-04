@@ -51,10 +51,9 @@ public class AccessingDataNeo4jApplication {
 
 			roy = personRepository.findByName(roy.getName());
 			roy.worksWith(craig);
-			// We already know that roy works with greg
 			personRepository.save(roy);
 
-			// We already know craig works with roy and greg
+			// Craig has no outgoing TEAMMATE relationships to add
 
 			log.info("Lookup each person by name...");
 			team.stream().forEach(person -> log.info(

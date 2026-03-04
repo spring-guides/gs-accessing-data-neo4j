@@ -126,9 +126,8 @@ field internally to track the data.
 
 The next important piece is the set of `teammates`. It is a simple `Set<Person>` but is
 marked as `@Relationship`. This means that every member of this set is expected to also
-exist as a separate `Person` node. Note how the direction is set to `UNDIRECTED`. This
-means that when you query the `TEAMMATE` relationship, Spring Data Neo4j ignores the
-direction of the relationship.
+exist as a separate `Person` node. The default direction is `OUTGOING`, meaning the
+`TEAMMATE` relationship points from this person to each teammate in the set.
 
 With the `worksWith()` method, you can easily link people together.
 
@@ -222,17 +221,15 @@ In this case, you create three local `Person` instances: Greg, Roy, and Craig.
 Initially, they only exist in memory. Note that no one is a teammate of anyone (yet).
 
 At first, you find Greg, indicate that he works with Roy and Craig, and then persist him
-again. Remember, the teammate relationship was marked as `UNDIRECTED` (that is,
-bidirectional). That means that Roy and Craig have been updated as well.
+again. Because the relationship direction is `OUTGOING`, only Greg's outgoing `TEAMMATE`
+relationships are saved at this point.
 
-That is why when you need to update Roy. It is critical that you fetch that record from
-Neo4j first. You need the latest status on Roy's teammates before adding Craig to the
-list.
+Next, you fetch Roy fresh from Neo4j (to ensure you have the latest state of that node)
+and add Craig as his teammate, then persist Roy.
 
-Why is there no code that fetches Craig and adds any relationships? Because you already
-have it! Greg earlier tagged Craig as a teammate, and so did Roy. That means there is no
-need to update Craig's relationships again. You can see it as you iterate over each team
-member and print their information to the console.
+Craig has no outgoing `TEAMMATE` relationships defined in this example, so no additional
+code is needed for Craig. You can see the results as you iterate over each team member
+and print their information to the console.
 
 Finally, check out that other query where you look backwards, answering the question of
 "Who works with whom?"
