@@ -70,7 +70,7 @@ You should see output similar to the following:
 Starting Neo4j.
 Started neo4j (pid 96416). By default, it is available at http://localhost:7474/
 There may be a short delay until the server is ready.
-See /usr/local/Cellar/neo4j/3.0.6/libexec/logs/neo4j.log for current status.
+See /usr/local/Cellar/neo4j/<version>/libexec/logs/neo4j.log for current status.
 ----
 ====
 
