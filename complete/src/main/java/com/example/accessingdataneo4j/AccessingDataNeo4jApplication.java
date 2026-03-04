@@ -59,9 +59,9 @@ public class AccessingDataNeo4jApplication {
 			team.stream().forEach(person -> log.info(
 					"\t" + personRepository.findByName(person.getName()).toString()));
 
-			List<Person> mentees = personRepository.findByMenteesName(greg.getName());
-			log.info("The following are mentored by Greg...");
-			mentees.stream().forEach(person -> log.info("\t" + person.getName()));
+			List<Person> mentors = personRepository.findByMenteesName(craig.getName());
+			log.info("The following mentor Craig...");
+			mentors.stream().forEach(person -> log.info("\t" + person.getName()));
 		};
 	}
 

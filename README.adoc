@@ -153,8 +153,9 @@ it operates: `Person`. This interface comes with many operations, including stan
 
 But you can define other queries by declaring their method signatures. In this case, you
 added `findByName`, which seeks nodes of type `Person` and finds the one that matches on
-`name`. You also have `findByMenteesName`, which looks for a `Person` node, drills into
-each entry of the `mentees` field, and matches based on the mentee's `name`.
+`name`. You also have `findByMenteesName`, which traverses the `MENTORS` relationship in reverse:
+given a mentee's name, it returns all `Person` nodes that have that person in their
+`mentees` set.
 
 == Permissions to Access Neo4j
 
@@ -227,7 +228,7 @@ can see the results as you iterate over each person and print their information 
 console.
 
 Finally, check out that other query where you look backwards, answering the question of
-"Who mentors whom?"
+"Who mentors Craig?"
 
 The following listing shows the finished `AccessingDataNeo4jApplication` class (at
 `src/main/java/com/example/accessingdataneo4j/AccessingDataNeo4jApplication.java`):
@@ -256,12 +257,16 @@ Lookup each person by name...
 	Greg mentors => [Roy, Craig]
 	Roy mentors => [Craig]
 	Craig mentors => []
+
+The following mentor Craig...
+	Greg
+	Roy
 ----
 ====
 
 You can see from the output that (initially) no one mentors anyone. Then, after you
 establish the relationships, you can see who mentors whom. Finally, you can see the handy
-query that looks up people based on mentee.
+reverse lookup that finds everyone who mentors a given person.
 
 == Summary
 
