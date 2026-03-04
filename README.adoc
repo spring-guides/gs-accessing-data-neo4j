@@ -259,8 +259,8 @@ Before linking up with Neo4j...
 
 Lookup each person by name...
 	Greg's teammates => [Roy, Craig]
-	Roy's teammates => [Greg, Craig]
-	Craig's teammates => [Roy, Greg]
+	Roy's teammates => [Craig]
+	Craig's teammates => []
 ----
 ====
 
