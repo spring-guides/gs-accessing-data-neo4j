@@ -34,20 +34,20 @@ public class Person {
 	 * to ignore the direction of the relationship.
 	 * https://dzone.com/articles/modelling-data-neo4j
 	 */
-	@Relationship(type = "TEAMMATE")
-	public Set<Person> teammates;
+	@Relationship(type = "MENTORS")
+	public Set<Person> mentees;
 
-	public void worksWith(Person person) {
-		if (teammates == null) {
-			teammates = new HashSet<>();
+	public void mentors(Person person) {
+		if (mentees == null) {
+			mentees = new HashSet<>();
 		}
-		teammates.add(person);
+		mentees.add(person);
 	}
 
 	public String toString() {
 
-		return this.name + "'s teammates => "
-			+ Optional.ofNullable(this.teammates).orElse(
+		return this.name + " mentors => "
+			+ Optional.ofNullable(this.mentees).orElse(
 					Collections.emptySet()).stream()
 						.map(Person::getName)
 						.collect(Collectors.toList());

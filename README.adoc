@@ -102,7 +102,7 @@ docker run \
 
 Neo4j captures entities and their relationships, with both aspects being of equal
 importance. Imagine you are modeling a system where you store a record for each person.
-However, you also want to track a person's co-workers (`teammates` in this example). With
+However, you also want to track who a person mentors (`mentees` in this example). With
 Spring Data Neo4j, you can capture all that with some simple annotations, as the following
 listing (in `src/main/java/com/example/accessingdataneo4j/Person.java`) shows:
 
@@ -119,15 +119,15 @@ The `Person` class is annotated with `@Node`. When Neo4j stores it, a new node i
 created. This class also has an `id` marked `@Id` and `@GeneratedValue`. Neo4j uses this
 field internally to track the data.
 
-The next important piece is the set of `teammates`. It is a simple `Set<Person>` but is
+The next important piece is the set of `mentees`. It is a simple `Set<Person>` but is
 marked as `@Relationship`. This means that every member of this set is expected to also
 exist as a separate `Person` node. The default direction is `OUTGOING`, meaning the
-`TEAMMATE` relationship points from this person to each teammate in the set.
+`MENTORS` relationship points from this person to each mentee in the set.
 
-With the `worksWith()` method, you can easily link people together.
+With the `mentors()` method, you can easily establish mentoring relationships.
 
-Finally, you have a convenient `toString()` method to print out the person's name and that
-person's co-workers.
+Finally, you have a convenient `toString()` method to print out the person's name and
+who they mentor.
 
 == Create Simple Queries
 
@@ -153,8 +153,8 @@ it operates: `Person`. This interface comes with many operations, including stan
 
 But you can define other queries by declaring their method signatures. In this case, you
 added `findByName`, which seeks nodes of type `Person` and finds the one that matches on
-`name`. You also have `findByTeammatesName`, which looks for a `Person` node, drills into
-each entry of the `teammates` field, and matches based on the teammate's `name`.
+`name`. You also have `findByMenteesName`, which looks for a `Person` node, drills into
+each entry of the `mentees` field, and matches based on the mentee's `name`.
 
 == Permissions to Access Neo4j
 
@@ -213,21 +213,21 @@ The `main` method uses Spring Boot's `SpringApplication.run()` to launch the
 application and invoke the `CommandLineRunner` that builds the relationships.
 
 In this case, you create three local `Person` instances: Greg, Roy, and Craig.
-Initially, they only exist in memory. Note that no one is a teammate of anyone (yet).
+Initially, they only exist in memory. Note that no one mentors anyone (yet).
 
-At first, you find Greg, indicate that he works with Roy and Craig, and then persist him
-again. Because the relationship direction is `OUTGOING`, only Greg's outgoing `TEAMMATE`
+At first, you find Greg, indicate that he mentors Roy and Craig, and then persist him.
+Because the relationship direction is `OUTGOING`, only Greg's outgoing `MENTORS`
 relationships are saved at this point.
 
 Next, you fetch Roy fresh from Neo4j (to ensure you have the latest state of that node)
-and add Craig as his teammate, then persist Roy.
+and establish that he mentors Craig, then persist Roy.
 
-Craig has no outgoing `TEAMMATE` relationships defined in this example, so no additional
-code is needed for Craig. You can see the results as you iterate over each team member
-and print their information to the console.
+Craig has no mentees yet in this example, so no additional code is needed for Craig. You
+can see the results as you iterate over each person and print their information to the
+console.
 
 Finally, check out that other query where you look backwards, answering the question of
-"Who works with whom?"
+"Who mentors whom?"
 
 The following listing shows the finished `AccessingDataNeo4jApplication` class (at
 `src/main/java/com/example/accessingdataneo4j/AccessingDataNeo4jApplication.java`):
@@ -248,20 +248,20 @@ queries, as well):
 ====
 ----
 Before linking up with Neo4j...
-	Greg's teammates => []
-	Roy's teammates => []
-	Craig's teammates => []
+	Greg mentors => []
+	Roy mentors => []
+	Craig mentors => []
 
 Lookup each person by name...
-	Greg's teammates => [Roy, Craig]
-	Roy's teammates => [Craig]
-	Craig's teammates => []
+	Greg mentors => [Roy, Craig]
+	Roy mentors => [Craig]
+	Craig mentors => []
 ----
 ====
 
-You can see from the output that (initially) no one is connected by any relationship.
-Then, after you add people, they are tied together. Finally, you can see the handy query
-that looks up people based on teammate.
+You can see from the output that (initially) no one mentors anyone. Then, after you
+establish the relationships, you can see who mentors whom. Finally, you can see the handy
+query that looks up people based on mentee.
 
 == Summary
 
