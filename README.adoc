@@ -79,7 +79,7 @@ requires that the new account password be changed. To do so, open the Neo4j Brow
 http://localhost:7474 and log in with the default credentials. You will be prompted to
 set a new password.
 
-This guide uses `secret` as the new password -- something to NOT do in production!
+This guide uses `spring+neo4j` as the new password -- something to NOT do in production!
 With that step completed, you should be ready to run the rest of this guide.
 
 Alternatively, to run with the https://hub.docker.com/_/neo4j[Neo4j Docker image].
@@ -91,7 +91,7 @@ You can change the password with the `NEO4J_AUTH` environment variable.
 docker run \
   --publish=7474:7474 --publish=7687:7687 \
   --volume=$HOME/neo4j/data:/data \
-  --env NEO4J_AUTH=neo4j/password \
+  --env NEO4J_AUTH=neo4j/spring+neo4j \
   neo4j
 ----
 ====
@@ -170,7 +170,7 @@ include::complete/src/main/resources/application.properties[]
 ====
 
 This includes the default username (`neo4j`) and the newly set password we picked earlier
-(`secret`).
+(`spring+neo4j`).
 
 WARNING: Do NOT store real credentials in your source repository. Instead, configure them
 in your runtime using
