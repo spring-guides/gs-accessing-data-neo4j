@@ -120,9 +120,9 @@ include::complete/src/main/java/com/example/accessingdataneo4j/Person.java[]
 
 Here you have a `Person` class that has only one attribute: `name`.
 
-The `Person` class is annotated with `@NodeEntity`. When Neo4j stores it, a new node is
-created. This class also has an `id` marked `@GraphId`. Neo4j uses `@GraphId` internally
-to track the data.
+The `Person` class is annotated with `@Node`. When Neo4j stores it, a new node is
+created. This class also has an `id` marked `@Id` and `@GeneratedValue`. Neo4j uses this
+field internally to track the data.
 
 The next important piece is the set of `teammates`. It is a simple `Set<Person>` but is
 marked as `@Relationship`. This means that every member of this set is expected to also
